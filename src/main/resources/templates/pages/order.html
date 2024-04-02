@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        .navbar{
+            height: 80px;
+            align-items: center;
+        }
+        .navbar-img{
+            height: 80px;
+            width: auto;
+        }
+        .content{
+            margin-top: 90px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .row {
+            display: flex;
+            margin-left: 150px;
+            margin-right: 150px;
+        }
+        .column {
+            flex: 40%;
+            padding: 12px;
+            border: 1px solid #dddddd;
+            border-radius: 10px;
+            margin: 10px;
+        }
+        .descriptor{
+            margin: 10px 0 10px 0;
+            text-align: center;
+        }
+        .dialog {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .dialog-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .addButton{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            border: none;
+        }
+        .addButton span{
+            font-size: 30px;
+        }
+    </style>
+    <script>
+        function openForm(item) {
+            //form config
+            let dialog = document.createElement("div");
+            dialog.setAttribute("class", "dialog");
+            dialog.setAttribute("id", "dialog-" + item);
+            let dialogContent = document.createElement("div");
+            dialogContent.setAttribute("class", "dialog-content");
+            let closeButton = document.createElement("span");
+            closeButton.setAttribute("class", "close");
+            closeButton.setAttribute("onclick", "closeForm('" + item + "')");
+            closeButton.innerHTML = "×";
+            let form = document.createElement("form");
+            form.setAttribute("class", "orderFrom");
+            form.setAttribute("id","orderFrom-"+item);
+            //form data
+            let h3 = document.createElement("h3");
+            h3.textContent = "Wybierz sos do Kebaba";
+            form.appendChild(h3);
+            let sosy = ["Czosnkowy", "Ostry", "BBQ", "Miodowo musztardowy", "Brazylijski", "Mieszany"]; //TODO dodaj zeby te sosy byly z bazy danych wczytywane
+            for (let i = 0; i < sosy.length; i++) {
+                let input = document.createElement("input");
+                input.setAttribute("type", "radio");
+                input.setAttribute("name", "sos");
+                input.setAttribute("value",sosy[i]);
+                form.appendChild(input);
+                form.appendChild(document.createTextNode(" " + sosy[i]));
+                form.appendChild(document.createElement("br"));
+            }
+            h3 = document.createElement("h3");
+            h3.textContent = "Wybierz mięso do Kebaba";
+            form.appendChild(h3);
+            let miesa = ["Kurczak", "Wołowo-baranie", "Mieszane"]; //TODO dodaj zeby te miesa z bazy danych byly wczytywane
+            for (let i = 0; i < miesa.length; i++) {
+                let input = document.createElement("input");
+                input.setAttribute("type", "radio");
+                input.setAttribute("name", "mieso");
+                input.setAttribute("value",miesa[i]);
+                form.appendChild(input);
+                form.appendChild(document.createTextNode(" " + miesa[i]));
+                form.appendChild(document.createElement("br"));
+            }
+            //counter
+            let quantityLabel = document.createElement("label");
+            quantityLabel.textContent = "Ilość sztuk: ";
+            form.appendChild(quantityLabel);
+            let quantityInput = document.createElement("input");
+            quantityInput.setAttribute("type", "number");
+            quantityInput.setAttribute("name", "quantity");
+            quantityInput.setAttribute("min", "1");
+            quantityInput.setAttribute("value", "1");
+            quantityInput.setAttribute("style","width: 80px; margin-left: 5px;")
+            form.appendChild(quantityInput);
+            //button
+            let submitButton = document.createElement("button");
+            submitButton.textContent = "Dodaj do zamówienia";
+            submitButton.addEventListener("click", function (event){
+                event.preventDefault();
+                saveOrder(item);
+                closeForm(item);
+            })
+            form.appendChild(submitButton);
+            dialogContent.appendChild(closeButton);
+            dialogContent.appendChild(form);
+            dialog.appendChild(dialogContent);
+            document.body.appendChild(dialog);
+            dialog.style.display = "block";
+        }
+        function saveOrder(item){
+            let orderPosition = localStorage.getItem("orderPosition") || 1;
+            let form = document.getElementById("orderFrom-"+item);
+            let sos = form.querySelector('input[name="sos"]:checked').value;
+            let mieso = form.querySelector('input[name="mieso"]:checked').value;
+            let quantity = form.querySelector('input[name="quantity"]').value;
+
+            // Pobierz cenę dla danego elementu
+            let columns = Array.from(document.querySelectorAll('.row .column'));
+            let column = columns.find(column => column.querySelector('h3').innerText === item);
+            let priceElement = column.querySelector('p:nth-child(3)');
+            let price = parseFloat(priceElement.innerText.replace(',', '.'));
+
+            // Oblicz całkowitą kwotę
+
+            let order = {
+                item: item,
+                sos: sos,
+                mieso: mieso,
+                quantity: quantity,
+                totalPrice: quantity*price
+            };
+            localStorage.setItem("order"+orderPosition,JSON.stringify(order));
+            orderPosition++;
+            localStorage.setItem("orderPosition",orderPosition);
+        }
+        function openFormForRest(item){
+            let dialog = document.createElement("div");
+            dialog.setAttribute("class", "dialog");
+            dialog.setAttribute("id", "dialog-" + item);
+            let dialogContent = document.createElement("div");
+            dialogContent.setAttribute("class", "dialog-content");
+            let closeButton = document.createElement("span");
+            closeButton.setAttribute("class", "close");
+            closeButton.setAttribute("onclick", "closeForm('" + item + "')");
+            closeButton.innerHTML = "×";
+            let form = document.createElement("form");
+            form.setAttribute("class", "orderFrom");
+            form.setAttribute("id","orderFrom-"+item);
+            let quantityLabel = document.createElement("label");
+            quantityLabel.textContent = "Ilość sztuk: ";
+            form.appendChild(quantityLabel);
+            let quantityInput = document.createElement("input");
+            quantityInput.setAttribute("type", "number");
+            quantityInput.setAttribute("name", "quantity");
+            quantityInput.setAttribute("min", "1");
+            quantityInput.setAttribute("value", "1");
+            quantityInput.setAttribute("style","width: 80px; margin-left: 5px;")
+            form.appendChild(quantityInput);
+            let submitButton = document.createElement("button");
+            submitButton.textContent = "Dodaj do zamówienia";
+            submitButton.addEventListener("click", function (event){
+                event.preventDefault();
+                saveOrderForRest(item);
+                closeForm(item);
+            })
+            form.appendChild(submitButton);
+            dialogContent.appendChild(closeButton);
+            dialogContent.appendChild(form);
+            dialog.appendChild(dialogContent);
+            document.body.appendChild(dialog);
+            dialog.style.display = "block";
+        }
+        function saveOrderForRest(item){
+            let orderPositionRest = localStorage.getItem("orderPositionRest") || 1;
+            let form = document.getElementById("orderFrom-"+item);
+            let quantity = form.querySelector('input[name="quantity"]').value;
+            let columns = Array.from(document.querySelectorAll('.row .column'));
+            let column = columns.find(column => column.querySelector('h3') && column.querySelector('h3').innerText === item);
+            let priceElement = column.querySelector('p:nth-child(3)');
+            let price = parseFloat(priceElement.innerText.replace(',', '.'));
+            let order = {
+                item: item,
+                quantity: quantity,
+                totalPrice: quantity*price
+            }
+            localStorage.setItem("orderRest"+orderPositionRest,JSON.stringify(order));
+            orderPositionRest++;
+            localStorage.setItem("orderPositionRest",orderPositionRest);
+        }
+        function closeForm(item) {
+            let dialog = document.getElementById("dialog-" + item);
+            document.body.removeChild(dialog);
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+    <div class="container-fluid">
+        <img class="navbar-img" th:src="@{/images/logo.png}" alt="">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Kontakt</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Koszyk</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="content">
+    <h1 class="descriptor">Kebaby</h1>
+    <div class="row">
+        <div class="column">
+            <h3>Pita</h3>
+            <p>ok. 100g mięsa, kapusta, pomidor, ogórek, cebula, sosy</p>
+            <p>20,00 zł</p>
+            <button class="addButton" onclick="openForm('Pita')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Pita XL</h3>
+            <p>ok. 150g mięsa, kapusta, pomidor, ogórek, cebula, sosy</p>
+            <p>25,00 zł</p>
+            <button class="addButton" onclick="openForm('Pita XL')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Pita XXL</h3>
+            <p>ok. 200g mięsa, kapusta, pomidor, ogórek, cebula, sosy</p>
+            <p>30,00 zł</p>
+            <button class="addButton" onclick="openForm('Pita XXL')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Bułka</h3>
+            <p>ok. 100g mięsa, marchewka, kapusta, pomidor, ogórek, cebula, sosy</p>
+            <p>18,00 zł</p>
+            <button class="addButton" onclick="openForm('Bułka')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Bułka XL</h3>
+            <p>ok. 160g mięsa, marchewka, kapusta, pomidor, ogórek, cebula, sosy</p>
+            <p>23,00 zł</p>
+            <button class="addButton" onclick="openForm('Bułka XL')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Bułka XXL</h3>
+            <p>ok. 210g mięsa, marchewka, kapusta, pomidor, ogórek, cebula, sosy</p>
+            <p>29,00 zł</p>
+            <button class="addButton" onclick="openForm('Bułka XXL')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Lawasz</h3>
+            <p>ok. 100g mięsa, marchewka, kapusta, pomidor, ogórek, cebula, sosy, lawasz ormiański, </p>
+            <p>22,00 zł</p>
+            <button class="addButton" onclick="openForm('Lawasz')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Lawasz XL</h3>
+            <p>ok. 150g mięsa, marchewka, kapusta, pomidor, ogórek, cebula, sosy, lawasz ormiański, </p>
+            <p>27,00 zł</p>
+            <button class="addButton" onclick="openForm('Lawasz XL')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Lawasz XXL</h3>
+            <p>ok. 200g mięsa, kapusta, pomidor, ogórek, sosy, lawasz ormiański, </p>
+            <p>32,00 zł</p>
+            <button class="addButton" onclick="openForm('Lawasz XXL')"><span>&#43;</span></button>
+        </div>
+        <div class="column invisible" style="visibility: hidden"></div>
+    </div>
+    <h1 class="descriptor">Burgery</h1>
+    <div class="row">
+        <div class="column">
+            <h3>Burger</h3>
+            <p>ok. 200g mięsa, sałata, pomidor, ogórek, cebula piklowana</p>
+            <p>32,00 zł</p>
+            <button class="addButton" onclick="openFormForRest('Burger')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Cheeseburger</h3>
+            <p>ok. 200g mięsa, ser, sałata, pomidor, ogórek, cebula piklowana</p>
+            <p>35,00 zł</p>
+            <button class="addButton" onclick="openFormForRest('Cheeseburger')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Pulled pork burger</h3>
+            <p>ok. 150g mięsa szarpanego, sałata, pomidor, ogórek, cebula piklowana</p>
+            <p>40,00 zł</p>
+            <button class="addButton" onclick="openFormForRest('Pulled pork burger')"><span>&#43;</span></button>
+        </div>
+        <div class="column invisible" style="visibility: hidden"></div>
+    </div>
+    <h1 class="descriptor">Pizza</h1>
+    <div class="row">
+        <div class="column">
+            <h3>Pizza margherita</h3>
+            <p>Mozarella, sos pomidorowy</p>
+            <p>35,00 zł</p>
+            <button class="addButton" onclick="openFormForRest('Pizza margherita')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Pizza pepperoni</h3>
+            <p>Mozarella, sos pomidorowy, pepperoni</p>
+            <p>39,00 zł</p>
+            <button class="addButton" onclick="openFormForRest('Pizza pepperoni')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Pizza kurczak</h3>
+            <p>Mozarella, sos pomidorowy, kurczak</p>
+            <p>41,00 zł</p>
+            <button class="addButton" onclick="openFormForRest('Pizza kurczak')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Pizza hawajska</h3>
+            <p>Mozarella, sos pomidorowy, ananas</p>
+            <p>32,00 zł</p>
+            <button class="addButton" onclick="openFormForRest('Pizza hawajska')"><span>&#43;</span></button>
+        </div>
+    </div>
+    <h1 class="descriptor">Sałatki</h1>
+    <div class="row">
+        <div class="column">
+            <h3>Sałatka z ananasem</h3>
+            <p>Makaron, kurczak, ananas, jabłko, seler</p>
+            <p>20,00zł</p>
+            <button class="addButton" onclick="openFormForRest('Sałatka z ananasem')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Sałatka grecka</h3>
+            <p>Pomidor, ogórek, cebula czerwona, oliwki, ser feta</p>
+            <p>31,00zł</p>
+            <button class="addButton" onclick="openFormForRest('Sałatka grecka')"><span>&#43;</span></button>
+        </div>
+        <div class="column">
+            <h3>Sałatka caprese</h3>
+            <p>Pomidory, mozarella, bazylia, oliwa</p>
+            <p>23,00zł</p>
+            <button class="addButton" onclick="openFormForRest('Sałatka caprese')"><span>&#43;</span></button>
+        </div>
+        <div class="column invisible" style="visibility: hidden"></div>
+    </div>
+</div>
+<div class="footer">
+    <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Menu</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Kontakt</a></li>
+        </ul>
+        <p class="text-center text-body-secondary">© 2024 Hubert, INC</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        body{
+            font-family: 'Montserrat', sans-serif;
+        }
+        h1{
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h3,p{
+            text-align: center;
+        }
+        p{
+            color: lightgray;
+        }
+        .navbar{
+            height: 80px;
+            align-items: center;
+        }
+        .navbar-img{
+            height: 80px;
+            width: auto;
+        }
+        .container{
+            margin-top: 90px;
+            padding: 0 200px 0 200px;
+        }
+        .firstrow{
+            width: 49%;
+        }
+        input{
+            margin: 5px 0 5px 0;
+            height: 50px;
+            width: 910px;
+            padding-left: 10px;
+        }
+        textarea{
+            width: 910px;
+            padding: 10px 0 0 10px;
+            margin-top: 5px;
+        }
+        .firstel{
+            margin-right: 5px;
+        }
+        .send-message{
+            font-weight: bold;
+            width: 230px;
+            height: 40px;
+            border: none;
+            background-color: black;
+            color: white;
+            display: block;
+            margin: auto;
+        }
+    </style>
+    <script>
+        function saveDataToStorage(){
+            let requestPostion = localStorage.getItem('requestPosition') || 1;
+            let imie = document.getElementById('imie').value;
+            let email = document.getElementById('email').value;
+            let telefon = document.getElementById('telefon').value;
+            let temat = document.getElementById('temat').value;
+            let wiadomosc = document.getElementById('wiadomosc').value;
+            let query = {
+                name: imie,
+                email: email,
+                phoneNumber: telefon,
+                topic: temat,
+                text: wiadomosc
+            }
+            localStorage.setItem("requestPosition"+requestPostion, JSON.stringify(query));
+            requestPostion++;
+            localStorage.setItem("requestPosition",requestPostion);
+            document.getElementById('imie').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('telefon').value = '';
+            document.getElementById('temat').value = '';
+            document.getElementById('wiadomosc').value = '';
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+        <div class="container-fluid">
+            <img class="navbar-img" src="@{/images/logo.png}" alt="">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Kontakt</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Napisz lub zadzwoń do nas!</h1>
+        <h3>LUBLIN UL. NADBYSTRZYCKA 36B</h3>
+        <h3>+48 321-654-978</h3><br>
+        <p>
+            Jeżeli macie Państwo pytania, zapraszamy do kontaktu telefonicznego z lokalem pod podanym wyżej numerem telefonu
+            lub do wysłania zapytań za pomocą poniższego formularza kontaktowego.
+        </p>
+        <div>
+            <form action="" onsubmit="saveDataToStorage();">
+                <input type="text" name="imie" placeholder="Imię" class="firstrow firstel" id="imie" required pattern="^[a-zA-Z]{3,20}" title="Podaj tylko litery">
+                <input type="text" name="email" placeholder="Adres email" class="firstrow" id="email" required pattern="^[a-zA-Z0-9.]+[@][a-zA-Z0-9]+[.][a-zA-Z]{1,8}$" title="Podaj adres email w formacie abcd@abcd.abcd">
+                <input type="text" name="telefon" placeholder="Numer telefonu" id="telefon" required pattern="\d{9}" title="Podaj numer w formacie 123456789"><br>
+                <input type="text" name="temat" placeholder="Temat" id="temat" required pattern="\w+" title="Tytuł wymagany"><br>
+                <textarea name="wiadomosc" id="wiadomosc" cols="50" rows="6" placeholder="Wiadomość" style="resize: none" required title="Treść wymagana"></textarea>
+                <input type="submit" class="send-message" value="WYŚLIJ WIADOMOŚĆ">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

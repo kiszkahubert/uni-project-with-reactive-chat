@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/loginstyle.css}">
+</head>
+<body>
+<div id="login-box">
+    <h2>Login</h2>
+    <form th:action="@{/register/save}" th:object="${user}" method="post">
+        <div class="user-box">
+            <input type="text" name="email" id="email" th:field="*{email}" required pattern="^.{1,20}[@].{2,8}[.].{2,8}$" title="Insert email address in format abcd@efgh.ijk">
+            <label>Email Address</label>
+            <p th:errors = "*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
+        </div>
+        <div class="user-box">
+            <input type="password" name="password" id="password" th:field="*passowrd" required pattern="^[A-Z].{5,20}$" title="Password must begin with big letter and have 6-20 signs">
+            <label>Password</label>
+            <p th:errors = "*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
+        </div>
+        <input type="submit" value="register">
+        <div class="user-login">
+            <a th:href="@{/login}">Sign in to your account</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
