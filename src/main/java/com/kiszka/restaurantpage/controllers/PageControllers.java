@@ -1,9 +1,16 @@
 package com.kiszka.restaurantpage.controllers;
 
+import com.kiszka.restaurantpage.entity.FormData;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
+@Slf4j
 public class PageControllers {
     @GetMapping("/home")
     public String mainPage(){
@@ -20,5 +27,10 @@ public class PageControllers {
     @GetMapping("/home/contact")
     public String getContact(){
         return "/pages/contactme";
+    }
+    @PostMapping("/api/endpoint")
+    public ResponseEntity<String> receiveData(@RequestBody FormData data){
+        log.info(data.getName()+" "+data.getEmail()+" "+data.getPhoneNumber()+" "+data.getTopic()+" "+data.getMessage());
+        return ResponseEntity.ok("Dane zostaly otrzymane");
     }
 }

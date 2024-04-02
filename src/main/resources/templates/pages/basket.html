@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
-    <title>Title</title>
+    <title>Basket</title>
+    <link rel="icon" href="/images/logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -50,7 +51,7 @@
         function displayItems(){
             let contentDiv = document.querySelector('.content');
             contentDiv.innerHTML = '';
-            let orderRestKeys = Object.keys(localStorage).filter(key => key.startsWith('orderRest'));
+            let orderRestKeys = Object.keys(localStorage).filter(key => key.startsWith('order'));
             if(orderRestKeys.length === 0){
                 let emptyCart = document.createElement('h1');
                 emptyCart.textContent = 'Koszyk jest obecnie pusty';

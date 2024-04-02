@@ -1,8 +1,8 @@
 package com.kiszka.restaurantpage.controllers;
 
-import com.kiszka.restaurantpage.entity.UserDto;
-import com.kiszka.restaurantpage.entity.UserInfo;
-import com.kiszka.restaurantpage.entity.UserService;
+import com.kiszka.restaurantpage.entity.database.UserDto;
+import com.kiszka.restaurantpage.entity.database.UserInfo;
+import com.kiszka.restaurantpage.entity.database.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

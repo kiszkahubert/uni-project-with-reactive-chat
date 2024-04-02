@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.entity;
+package com.kiszka.restaurantpage.entity.database;
 
 import lombok.Data;
 

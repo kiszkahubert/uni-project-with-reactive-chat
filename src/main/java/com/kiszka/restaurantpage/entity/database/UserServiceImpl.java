@@ -1,5 +1,9 @@
-package com.kiszka.restaurantpage.entity;
+package com.kiszka.restaurantpage.entity.database;
 
+import com.kiszka.restaurantpage.entity.database.UserDto;
+import com.kiszka.restaurantpage.entity.database.UserInfo;
+import com.kiszka.restaurantpage.entity.database.UserRepository;
+import com.kiszka.restaurantpage.entity.database.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -7,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 

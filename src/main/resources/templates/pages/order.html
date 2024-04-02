@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" xmlns:th="https://www.thymeleaf.org">
-    <title>Title</title>
+    <title>Orders</title>
+    <link rel="icon" href="/images/logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -149,20 +150,15 @@
             dialog.style.display = "block";
         }
         function saveOrder(item){
-            let orderPosition = localStorage.getItem("orderPosition") || 1;
+            let positionOrder = localStorage.getItem("positionOrder") || 1;
             let form = document.getElementById("orderFrom-"+item);
             let sos = form.querySelector('input[name="sos"]:checked').value;
             let mieso = form.querySelector('input[name="mieso"]:checked').value;
             let quantity = form.querySelector('input[name="quantity"]').value;
-
-            // Pobierz cenę dla danego elementu
             let columns = Array.from(document.querySelectorAll('.row .column'));
             let column = columns.find(column => column.querySelector('h3').innerText === item);
             let priceElement = column.querySelector('p:nth-child(3)');
             let price = parseFloat(priceElement.innerText.replace(',', '.'));
-
-            // Oblicz całkowitą kwotę
-
             let order = {
                 item: item,
                 sos: sos,
@@ -170,9 +166,9 @@
                 quantity: quantity,
                 totalPrice: quantity*price
             };
-            localStorage.setItem("order"+orderPosition,JSON.stringify(order));
-            orderPosition++;
-            localStorage.setItem("orderPosition",orderPosition);
+            localStorage.setItem("order"+positionOrder,JSON.stringify(order));
+            positionOrder++;
+            localStorage.setItem("positionOrder",positionOrder);
         }
         function openFormForRest(item){
             let dialog = document.createElement("div");
@@ -212,7 +208,7 @@
             dialog.style.display = "block";
         }
         function saveOrderForRest(item){
-            let orderPositionRest = localStorage.getItem("orderPositionRest") || 1;
+            let positionOrderRest = localStorage.getItem("positionOrderRest") || 1;
             let form = document.getElementById("orderFrom-"+item);
             let quantity = form.querySelector('input[name="quantity"]').value;
             let columns = Array.from(document.querySelectorAll('.row .column'));
@@ -224,9 +220,9 @@
                 quantity: quantity,
                 totalPrice: quantity*price
             }
-            localStorage.setItem("orderRest"+orderPositionRest,JSON.stringify(order));
-            orderPositionRest++;
-            localStorage.setItem("orderPositionRest",orderPositionRest);
+            localStorage.setItem("orderRest"+positionOrderRest,JSON.stringify(order));
+            positionOrderRest++;
+            localStorage.setItem("positionOrderRest",positionOrderRest);
         }
         function closeForm(item) {
             let dialog = document.getElementById("dialog-" + item);
