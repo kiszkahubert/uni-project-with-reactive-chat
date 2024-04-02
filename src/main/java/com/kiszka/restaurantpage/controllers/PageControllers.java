@@ -13,4 +13,12 @@ public class PageControllers {
     public String getMenu(){
         return "/pages/order";
     }
+    @GetMapping("/home/basket")
+    public String getBasket(){
+        return "/pages/basket";
+    }
+    @GetMapping("/home/contact")
+    public String getContact(){
+        return "/pages/contactme";
+    }
 }
