@@ -42,7 +42,7 @@ public class ValidationControllers {
             model.addAttribute("user",userDto);
             return "/validation/register";
         }
-        userDto.setRole("ADMIN");
+        userDto.setRole("USER");
         userService.saveUser(userDto);
         return "redirect:/login";
     }

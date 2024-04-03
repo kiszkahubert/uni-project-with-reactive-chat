@@ -3,6 +3,7 @@ package com.kiszka.restaurantpage.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kiszka.restaurantpage.entity.FormData;
+import com.kiszka.restaurantpage.entity.orderinfo.OrderData;
 import com.kiszka.restaurantpage.services.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -42,6 +45,15 @@ public class PageControllers {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString("Data has been received");
         emailService.sendEmail(data);
+        return ResponseEntity.ok(jsonResponse);
+    }
+    @PostMapping("/api/orders")
+    public ResponseEntity<String> receiveData(@RequestBody List<OrderData> orders) throws JsonProcessingException {
+        for (var obj : orders){
+            log.info(obj.toString());
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonResponse = objectMapper.writeValueAsString("Data has been received");
         return ResponseEntity.ok(jsonResponse);
     }
 }
