@@ -3,8 +3,11 @@ package com.kiszka.restaurantpage.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kiszka.restaurantpage.entity.FormData;
+import com.kiszka.restaurantpage.services.EmailService;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.query.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 @Slf4j
 public class PageControllers {
+    EmailService emailService;
+    @Autowired
+    public PageControllers(EmailService emailService){
+        this.emailService = emailService;
+    }
     @GetMapping("/home")
     public String mainPage(){
         return "/pages/mainpage";
@@ -36,6 +44,7 @@ public class PageControllers {
         log.info(data.getName()+" "+data.getEmail()+" "+data.getPhoneNumber()+" "+data.getTopic()+" "+data.getMessage());
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString("Data has been received");
+        emailService.sendEmail(data);
         return ResponseEntity.ok(jsonResponse);
     }
 }
