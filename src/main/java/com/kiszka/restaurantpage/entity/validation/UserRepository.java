@@ -1,6 +1,5 @@
-package com.kiszka.restaurantpage.entity.database;
+package com.kiszka.restaurantpage.entity.validation;
 
-import com.kiszka.restaurantpage.entity.database.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserInfo,Integer> {

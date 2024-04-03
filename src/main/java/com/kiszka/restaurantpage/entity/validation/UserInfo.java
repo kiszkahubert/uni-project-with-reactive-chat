@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.entity.database;
+package com.kiszka.restaurantpage.entity.validation;
 
 import jakarta.persistence.*;
 import lombok.Data;

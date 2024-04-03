@@ -1,9 +1,5 @@
-package com.kiszka.restaurantpage.entity.database;
+package com.kiszka.restaurantpage.entity.validation;
 
-import com.kiszka.restaurantpage.entity.database.UserDto;
-import com.kiszka.restaurantpage.entity.database.UserInfo;
-import com.kiszka.restaurantpage.entity.database.UserRepository;
-import com.kiszka.restaurantpage.entity.database.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,4 @@
-package com.kiszka.restaurantpage.entity.database;
-
-import com.kiszka.restaurantpage.entity.database.UserDto;
-import com.kiszka.restaurantpage.entity.database.UserInfo;
+package com.kiszka.restaurantpage.entity.validation;
 
 import java.util.List;
 
