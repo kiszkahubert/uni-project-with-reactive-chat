@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class OrderData {
     private String item;
-    private String sos;
-    private String mieso;
+    private String sauce;
+    private String meat;
     private int quantity;
     private int totalPrice;
 }

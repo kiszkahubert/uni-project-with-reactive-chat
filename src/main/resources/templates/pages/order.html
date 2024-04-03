@@ -152,8 +152,8 @@
         function saveOrder(item){
             let positionOrder = localStorage.getItem("positionOrder") || 1;
             let form = document.getElementById("orderFrom-"+item);
-            let sos = form.querySelector('input[name="sos"]:checked').value;
-            let mieso = form.querySelector('input[name="mieso"]:checked').value;
+            let sauce = form.querySelector('input[name="sos"]:checked').value;
+            let meat = form.querySelector('input[name="mieso"]:checked').value;
             let quantity = form.querySelector('input[name="quantity"]').value;
             let columns = Array.from(document.querySelectorAll('.row .column'));
             let column = columns.find(column => column.querySelector('h3').innerText === item);
@@ -161,8 +161,8 @@
             let price = parseFloat(priceElement.innerText.replace(',', '.'));
             let order = {
                 item: item,
-                sos: sos,
-                mieso: mieso,
+                sauce: sauce,
+                meat: meat,
                 quantity: quantity,
                 totalPrice: quantity*price
             };

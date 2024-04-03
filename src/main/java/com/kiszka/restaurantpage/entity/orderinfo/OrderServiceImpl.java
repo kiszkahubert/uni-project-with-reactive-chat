@@ -21,6 +21,7 @@ public class OrderServiceImpl implements OrderService {
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setItem(orderDetailsDto.getItem());
         orderDetails.setQuantity(orderDetailsDto.getQuantity());
+        orderDetails.setTotalPrice(orderDetailsDto.getTotalPrice());
         orderDetails.setOrderDate(orderDetailsDto.getOrderDate());
         orderDetails.setDeliveryDate(orderDetailsDto.getDeliveryDate());
         orderDetails.setSauce(orderDetailsDto.getSauce());
@@ -31,8 +32,4 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(orderDetails);
     }
 
-    @Override
-    public OrderDetails findOrderByUser(UserInfo userInfo) {
-        return orderRepository.findByUser(userInfo);
-    }
 }

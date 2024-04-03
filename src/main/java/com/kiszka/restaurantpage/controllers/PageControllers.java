@@ -2,7 +2,10 @@ package com.kiszka.restaurantpage.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kiszka.restaurantpage.entity.orderinfo.OrderDetailsDto;
+import com.kiszka.restaurantpage.entity.orderinfo.OrderService;
 import com.kiszka.restaurantpage.services.EmailService;
+import jakarta.persistence.criteria.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,15 +14,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
 @Slf4j
 public class PageControllers {
-    EmailService emailService;
+    private final EmailService emailService;
+    private final OrderService orderService;
     @Autowired
-    public PageControllers(EmailService emailService){
+    public PageControllers(EmailService emailService, OrderService orderService){
         this.emailService = emailService;
+        this.orderService = orderService;
     }
     @GetMapping("/home")
     public String mainPage(){
@@ -48,6 +54,15 @@ public class PageControllers {
     @PostMapping("/api/orders")
     public ResponseEntity<String> receiveData(@RequestBody List<OrderData> orders) throws JsonProcessingException {
         for (var obj : orders){
+            orderService.saveOrder(new OrderDetailsDto(
+                    obj.getItem(),
+                    obj.getQuantity(),
+                    obj.getTotalPrice(),
+                    new Date(),
+                    null,
+                    obj.getSauce(),
+                    obj.getMeat()
+            ));
             log.info(obj.toString());
         }
         ObjectMapper objectMapper = new ObjectMapper();
