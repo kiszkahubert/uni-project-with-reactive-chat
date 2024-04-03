@@ -2,8 +2,6 @@ package com.kiszka.restaurantpage.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kiszka.restaurantpage.entity.FormData;
-import com.kiszka.restaurantpage.entity.orderinfo.OrderData;
 import com.kiszka.restaurantpage.services.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

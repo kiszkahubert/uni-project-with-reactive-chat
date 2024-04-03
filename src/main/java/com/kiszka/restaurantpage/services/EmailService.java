@@ -1,6 +1,6 @@
 package com.kiszka.restaurantpage.services;
 
-import com.kiszka.restaurantpage.entity.FormData;
+import com.kiszka.restaurantpage.controllers.FormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;

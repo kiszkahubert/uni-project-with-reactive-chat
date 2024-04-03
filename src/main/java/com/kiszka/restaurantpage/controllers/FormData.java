@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.entity;
+package com.kiszka.restaurantpage.controllers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

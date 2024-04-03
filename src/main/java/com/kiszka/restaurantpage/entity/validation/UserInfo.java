@@ -23,4 +23,19 @@ public class UserInfo {
     private String role;
     @OneToMany(mappedBy = "user")
     private List<OrderDetails> orders;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserInfo userInfo = (UserInfo) o;
+
+        return id == userInfo.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

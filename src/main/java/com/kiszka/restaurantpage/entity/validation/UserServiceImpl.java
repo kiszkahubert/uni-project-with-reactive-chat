@@ -1,5 +1,8 @@
 package com.kiszka.restaurantpage.entity.validation;
 
+import com.kiszka.restaurantpage.SecurityConfig.UserDetailsService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +39,17 @@ public class UserServiceImpl implements UserService {
                 .map(this::mapToUserDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public UserInfo getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails){
+            String email = ((UserDetails)principal).getUsername();
+            return userRepository.findByEmail(email);
+        }
+        return null;
+    }
+
     private UserDto mapToUserDto(UserInfo userInfo){
         UserDto userDto = new UserDto();
         userDto.setEmail(userInfo.getEmail());
