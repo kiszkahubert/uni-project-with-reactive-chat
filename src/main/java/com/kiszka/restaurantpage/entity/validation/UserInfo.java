@@ -1,7 +1,10 @@
 package com.kiszka.restaurantpage.entity.validation;
 
+import com.kiszka.restaurantpage.entity.orderinfo.OrderDetails;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -18,4 +21,6 @@ public class UserInfo {
     private String password;
     @Column(name = "role")
     private String role;
+    @OneToMany(mappedBy = "user")
+    private List<OrderDetails> orders;
 }

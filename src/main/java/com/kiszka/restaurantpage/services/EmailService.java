@@ -14,9 +14,6 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String smtpEmail;
 
-    @Value("${spring.mail.passwod}")
-    private String smtpPassword;
-
     @Autowired
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
