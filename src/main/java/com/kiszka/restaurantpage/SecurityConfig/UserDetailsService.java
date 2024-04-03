@@ -1,8 +1,8 @@
 package com.kiszka.restaurantpage.SecurityConfig;
 
 
-import com.kiszka.restaurantpage.entity.database.UserInfo;
-import com.kiszka.restaurantpage.entity.database.UserRepository;
+import com.kiszka.restaurantpage.entity.validation.UserInfo;
+import com.kiszka.restaurantpage.entity.validation.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
