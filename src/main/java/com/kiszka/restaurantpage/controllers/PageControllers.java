@@ -10,12 +10,13 @@ import com.kiszka.restaurantpage.services.EmailService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.Date;
 import java.util.List;
@@ -77,5 +78,15 @@ public class PageControllers {
         List<OrderDetailsDto> orders = orderService.getOrdersForCurrentUser();
         model.addAttribute("orders",orders);
         return "/pages/profile";
+    }
+}
+@ControllerAdvice
+class GlobalExceptionHandler{
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ModelAndView handleNotFoundError(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/home");
+        mav.setStatus(HttpStatus.MOVED_PERMANENTLY);
+        return mav;
     }
 }

@@ -115,7 +115,7 @@
             let h3 = document.createElement("h3");
             h3.textContent = "Wybierz sos do Kebaba";
             form.appendChild(h3);
-            let sosy = ["Czosnkowy", "Ostry", "BBQ", "Miodowo musztardowy", "Brazylijski", "Mieszany"]; //TODO dodaj zeby te sosy byly z bazy danych wczytywane
+            let sosy = ["Czosnkowy", "Ostry", "BBQ", "Miodowo musztardowy", "Brazylijski", "Mieszany"];
             for (let i = 0; i < sosy.length; i++) {
                 let input = document.createElement("input");
                 input.setAttribute("type", "radio");
@@ -128,7 +128,7 @@
             h3 = document.createElement("h3");
             h3.textContent = "Wybierz mięso do Kebaba";
             form.appendChild(h3);
-            let miesa = ["Kurczak", "Wołowo-baranie", "Mieszane"]; //TODO dodaj zeby te miesa z bazy danych byly wczytywane
+            let miesa = ["Kurczak", "Wołowo-baranie", "Mieszane"];
             for (let i = 0; i < miesa.length; i++) {
                 let input = document.createElement("input");
                 input.setAttribute("type", "radio");
@@ -256,7 +256,7 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
     <div class="container-fluid">
-        <img class="navbar-img" th:src="@{/images/logo.png}" alt="">
+        <a th:href="@{/home}"><img class="navbar-img" th:src="@{/images/logo.png}" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

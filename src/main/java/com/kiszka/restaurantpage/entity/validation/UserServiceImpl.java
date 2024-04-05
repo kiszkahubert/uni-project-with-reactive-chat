@@ -1,6 +1,5 @@
 package com.kiszka.restaurantpage.entity.validation;
 
-import com.kiszka.restaurantpage.SecurityConfig.UserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
