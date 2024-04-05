@@ -9,7 +9,7 @@
     <h2>Aby kontynuować, zaloguj się</h2>
     <form th:action="@{/login}" method="post">
         <div class="user-box">
-            <input type="text" name="username" required>
+            <input type="text" name="username" required pattern="^[a-zA-Z0-9.]+[@][a-zA-Z0-9]+[.][a-zA-Z]{1,8}$">
             <label>Email address</label>
         </div>
         <div class="user-box">
@@ -17,6 +17,9 @@
             <label>Password</label>
         </div>
         <input type="submit" value="Login">
+        <div th:if="${param.error}" class="error-message">
+            Niepoprawny email lub hasło. Spróbuj ponownie.
+        </div>
         <div class="user-login">
             <a th:href="@{/register}">Create new account</a>
         </div>

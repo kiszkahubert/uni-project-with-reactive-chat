@@ -2,11 +2,12 @@ package com.kiszka.restaurantpage.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kiszka.restaurantpage.entity.orderinfo.OrderDetails;
+import com.kiszka.restaurantpage.entity.forms.FormData;
+import com.kiszka.restaurantpage.entity.forms.OrderData;
 import com.kiszka.restaurantpage.entity.orderinfo.OrderDetailsDto;
 import com.kiszka.restaurantpage.entity.orderinfo.OrderService;
 import com.kiszka.restaurantpage.services.EmailService;
-import jakarta.persistence.criteria.Order;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class PageControllers {
         return "/pages/contactme";
     }
     @PostMapping("/api/endpoint")
-    public ResponseEntity<String> receiveData(@RequestBody FormData data) throws JsonProcessingException {
+    public ResponseEntity<String> receiveData(@Valid @RequestBody FormData data) throws JsonProcessingException {
         log.info(data.getName()+" "+data.getEmail()+" "+data.getPhoneNumber()+" "+data.getTopic()+" "+data.getMessage());
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString("Data has been received");
@@ -54,7 +55,7 @@ public class PageControllers {
         return ResponseEntity.ok(jsonResponse);
     }
     @PostMapping("/api/orders")
-    public ResponseEntity<String> receiveData(@RequestBody List<OrderData> orders) throws JsonProcessingException {
+    public ResponseEntity<String> receiveData(@Valid @RequestBody List<OrderData> orders) throws JsonProcessingException {
         for (var obj : orders){
             orderService.saveOrder(new OrderDetailsDto(
                     obj.getItem(),

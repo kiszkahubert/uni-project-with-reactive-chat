@@ -11,12 +11,12 @@
     <h2>Register</h2>
     <form th:action="@{/register/save}" th:object="${user}" method="post">
         <div class="user-box">
-            <input type="text" name="email" id="email" th:field="*{email}" required pattern="^.{1,20}[@].{2,8}[.].{2,8}$" title="Insert email address in format abcd@efgh.ijk">
+            <input type="text" name="email" id="email" th:field="*{email}" required pattern="^[a-zA-Z0-9.]+[@][a-zA-Z0-9]+[.][a-zA-Z]{1,8}$" title="Podaj adres email w formacie abcd@efgh.ijk">
             <label>Email Address</label>
             <p th:errors = "*{email}" class="text-danger" th:if="${#fields.hasErrors('email')}"></p>
         </div>
         <div class="user-box">
-            <input type="password" name="password" id="password" th:field="*{password}" required title="Password must begin with big letter and have 6-20 signs">
+            <input type="password" name="password" id="password" th:field="*{password}" required >
             <label>Password</label>
             <p th:errors = "*{password}" class="text-danger" th:if="${#fields.hasErrors('password')}"></p>
         </div>

@@ -147,6 +147,10 @@
             quantityInput.setAttribute("name", "quantity");
             quantityInput.setAttribute("min", "1");
             quantityInput.setAttribute("value", "1");
+            quantityInput.setAttribute("max", "10");
+            quantityInput.addEventListener('keydown', function(e) {
+                e.preventDefault();
+            });
             quantityInput.setAttribute("style","width: 80px; margin-left: 5px;")
             form.appendChild(quantityInput);
             //button
@@ -206,6 +210,10 @@
             quantityInput.setAttribute("name", "quantity");
             quantityInput.setAttribute("min", "1");
             quantityInput.setAttribute("value", "1");
+            quantityInput.setAttribute("max", "10");
+            quantityInput.addEventListener('keydown', function(e) {
+                e.preventDefault();
+            });
             quantityInput.setAttribute("style","width: 80px; margin-left: 5px;")
             form.appendChild(quantityInput);
             let submitButton = document.createElement("button");

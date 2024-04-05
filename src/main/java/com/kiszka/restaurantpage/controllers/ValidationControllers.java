@@ -3,6 +3,7 @@ package com.kiszka.restaurantpage.controllers;
 import com.kiszka.restaurantpage.entity.validation.UserDto;
 import com.kiszka.restaurantpage.entity.validation.UserInfo;
 import com.kiszka.restaurantpage.entity.validation.UserService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,10 +34,10 @@ public class ValidationControllers {
         return "/validation/register";
     }
     @PostMapping("/register/save")
-    public String registration(@ModelAttribute("user") UserDto userDto, BindingResult result, Model model){
+    public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model){
         UserInfo existingUser = userService.findUserByEmail(userDto.getEmail());
         if(existingUser!=null && existingUser.getEmail()!=null &&!existingUser.getEmail().isEmpty()){
-            result.rejectValue("email","Same email exists","There is already an account registered with the same email");
+            result.rejectValue("email","400","Konto z podanym adresem email już istnieje");
         }
         if(result.hasErrors()){
             model.addAttribute("user",userDto);
