@@ -1,7 +1,9 @@
 package com.kiszka.restaurantpage.entity.orderinfo;
 
-import com.kiszka.restaurantpage.entity.validation.UserInfo;
+
+import java.util.List;
 
 public interface OrderService {
     void saveOrder(OrderDetailsDto orderDetailsDto);
+    List<OrderDetailsDto> getOrdersForCurrentUser();
 }

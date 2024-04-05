@@ -2,6 +2,7 @@ package com.kiszka.restaurantpage.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kiszka.restaurantpage.entity.orderinfo.OrderDetails;
 import com.kiszka.restaurantpage.entity.orderinfo.OrderDetailsDto;
 import com.kiszka.restaurantpage.entity.orderinfo.OrderService;
 import com.kiszka.restaurantpage.services.EmailService;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,5 +70,11 @@ public class PageControllers {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString("Data has been received");
         return ResponseEntity.ok(jsonResponse);
+    }
+    @GetMapping("/home/profile")
+    public String getProfile(Model model){
+        List<OrderDetailsDto> orders = orderService.getOrdersForCurrentUser();
+        model.addAttribute("orders",orders);
+        return "/pages/profile";
     }
 }

@@ -5,6 +5,9 @@ import com.kiszka.restaurantpage.entity.validation.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
@@ -31,5 +34,18 @@ public class OrderServiceImpl implements OrderService {
         orderDetails.setUser(currentUser);
         orderRepository.save(orderDetails);
     }
-
+    @Override
+    public List<OrderDetailsDto> getOrdersForCurrentUser() {
+        UserInfo currentUser = userService.getCurrentUser();
+        List<OrderDetails> orders = orderRepository.findByUser(currentUser);
+        return orders.stream().map(order -> new OrderDetailsDto(
+                order.getItem(),
+                order.getQuantity(),
+                order.getTotalPrice(),
+                order.getOrderDate(),
+                order.getDeliveryDate(),
+                order.getSauce(),
+                order.getMeat()
+        )).collect(Collectors.toList());
+    }
 }
