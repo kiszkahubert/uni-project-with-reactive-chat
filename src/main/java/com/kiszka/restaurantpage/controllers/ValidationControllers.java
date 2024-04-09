@@ -21,7 +21,7 @@ public class ValidationControllers {
     }
     @GetMapping("/login")
     public String login(){
-        return "/validation/login";
+        return "validation/login";
     }
     @GetMapping("/logout")
     public String logout(){
@@ -31,7 +31,7 @@ public class ValidationControllers {
     public String showRegistrationForm(Model model){
         UserDto userDto = new UserDto();
         model.addAttribute("user",userDto);
-        return "/validation/register";
+        return "validation/register";
     }
     @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDto userDto, BindingResult result, Model model){
@@ -41,7 +41,7 @@ public class ValidationControllers {
         }
         if(result.hasErrors()){
             model.addAttribute("user",userDto);
-            return "/validation/register";
+            return "validation/register";
         }
         userDto.setRole("USER");
         userService.saveUser(userDto);

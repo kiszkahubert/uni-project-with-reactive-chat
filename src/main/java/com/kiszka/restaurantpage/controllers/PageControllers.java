@@ -33,19 +33,19 @@ public class PageControllers {
     }
     @GetMapping("/home")
     public String mainPage(){
-        return "/pages/mainpage";
+        return "pages/mainpage";
     }
     @GetMapping("/home/menu")
     public String getMenu(){
-        return "/pages/order";
+        return "pages/order";
     }
     @GetMapping("/home/basket")
     public String getBasket(){
-        return "/pages/basket";
+        return "pages/basket";
     }
     @GetMapping("/home/contact")
     public String getContact(){
-        return "/pages/contactme";
+        return "pages/contactme";
     }
     @PostMapping("/api/endpoint")
     public ResponseEntity<String> receiveData(@Valid @RequestBody FormData data) throws JsonProcessingException {
@@ -73,11 +73,15 @@ public class PageControllers {
         String jsonResponse = objectMapper.writeValueAsString("Data has been received");
         return ResponseEntity.ok(jsonResponse);
     }
+    @GetMapping("/")
+    public String getProfile(){
+        return "/pages/mainpage";
+    }
     @GetMapping("/home/profile")
     public String getProfile(Model model){
         List<OrderDetailsDto> orders = orderService.getOrdersForCurrentUser();
         model.addAttribute("orders",orders);
-        return "/pages/profile";
+        return "pages/profile";
     }
 }
 @ControllerAdvice

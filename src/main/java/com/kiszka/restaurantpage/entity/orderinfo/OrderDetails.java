@@ -10,8 +10,8 @@ import java.util.Date;
 @Entity @Table(name="orders")
 public class OrderDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_id")
-    @SequenceGenerator(name = "seq_id",sequenceName = "seq_id",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_id_order")
+    @SequenceGenerator(name = "seq_id_order",sequenceName = "seq_id_order",allocationSize = 1)
     @Column(name="orderkey")
     private int id;
     @ManyToOne
