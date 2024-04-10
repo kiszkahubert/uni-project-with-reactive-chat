@@ -26,6 +26,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authz->authz
@@ -38,6 +39,10 @@ public class SecurityConfig {
                         .successHandler(((request, response, authentication) ->
                                 response.sendRedirect("/home")))
                         .permitAll());
+        http.oauth2Login(oauth2->oauth2
+                .loginPage("/login")
+                .defaultSuccessUrl("/home",true)
+                .permitAll());
         http.logout(logout->
                 logout.invalidateHttpSession(true)
                         .clearAuthentication(true)

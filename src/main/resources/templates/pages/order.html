@@ -96,6 +96,12 @@
                 margin-bottom: auto;
             }
         }
+        @media screen and (max-width: 600px) {
+            .dialog-content {
+                margin-top: 300px;
+                width: 90%;
+            }
+        }
     </style>
     <script>
         function openForm(item) {
@@ -149,10 +155,15 @@
             quantityInput.setAttribute("min", "1");
             quantityInput.setAttribute("value", "1");
             quantityInput.setAttribute("max", "10");
-            quantityInput.addEventListener('keydown', function(e) {
-                e.preventDefault();
-            });
             quantityInput.setAttribute("style","width: 80px; margin-left: 5px;")
+            quantityInput.addEventListener("input", function() {
+                let value = parseInt(this.value);
+                if (value > 10) {
+                    this.value = 10;
+                } else if (value < 1) {
+                    this.value = 1;
+                }
+            });
             form.appendChild(quantityInput);
             //button
             let submitButton = document.createElement("button");
@@ -212,10 +223,15 @@
             quantityInput.setAttribute("min", "1");
             quantityInput.setAttribute("value", "1");
             quantityInput.setAttribute("max", "10");
-            quantityInput.addEventListener('keydown', function(e) {
-                e.preventDefault();
-            });
             quantityInput.setAttribute("style","width: 80px; margin-left: 5px;")
+            quantityInput.addEventListener("input", function() {
+                let value = parseInt(this.value);
+                if (value > 10) {
+                    this.value = 10;
+                } else if (value < 1) {
+                    this.value = 1;
+                }
+            });
             form.appendChild(quantityInput);
             let submitButton = document.createElement("button");
             submitButton.textContent = "Dodaj do zamówienia";

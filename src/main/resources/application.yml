@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@web_app_db:1521:XE
+    url: jdbc:oracle:thin:@localhost:1521:XE
     username: localadmin
     password: localadmin
     driver-class-name: oracle.jdbc.OracleDriver
@@ -17,6 +17,10 @@ spring:
           auth: true
   jpa:
     show-sql: false
-logging:
-  level:
-    root: warn
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${client-id}
+            client-secret: ${client-secret}

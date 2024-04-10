@@ -1,0 +1,25 @@
+services:
+  web_app_db:
+    image: restaurantapp_db
+    ports:
+      - "1521:1521"
+    networks:
+      - webapp_net
+
+  web_app:
+    image: web_app
+    ports:
+      - "8080:8080"
+    environment:
+      - SMTP_PASSWD=${SMTP_PASSWD}
+      - SMTP_EMAIL=${SMTP_EMAIL}
+      - client-id=${client-id}
+      - client-secret=${client-secret}
+    depends_on:
+      - web_app_db
+    networks:
+      - webapp_net
+
+networks:
+  webapp_net:
+    driver: bridge
