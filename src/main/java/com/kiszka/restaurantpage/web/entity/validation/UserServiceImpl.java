@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.entity.validation;
+package com.kiszka.restaurantpage.web.entity.validation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.entity.forms;
+package com.kiszka.restaurantpage.web.entity.forms;
 
 import jakarta.validation.constraints.Max;
 import lombok.Data;

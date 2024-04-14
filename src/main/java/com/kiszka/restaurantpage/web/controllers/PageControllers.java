@@ -1,12 +1,12 @@
-package com.kiszka.restaurantpage.controllers;
+package com.kiszka.restaurantpage.web.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kiszka.restaurantpage.entity.forms.FormData;
-import com.kiszka.restaurantpage.entity.forms.OrderData;
-import com.kiszka.restaurantpage.entity.orderinfo.OrderDetailsDto;
-import com.kiszka.restaurantpage.entity.orderinfo.OrderService;
-import com.kiszka.restaurantpage.services.EmailService;
+import com.kiszka.restaurantpage.web.entity.forms.FormData;
+import com.kiszka.restaurantpage.web.entity.forms.OrderData;
+import com.kiszka.restaurantpage.web.entity.orderinfo.OrderDetailsDto;
+import com.kiszka.restaurantpage.web.entity.orderinfo.OrderService;
+import com.kiszka.restaurantpage.web.services.EmailService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.entity.forms;
+package com.kiszka.restaurantpage.web.entity.forms;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Pattern;

@@ -1,7 +1,7 @@
-package com.kiszka.restaurantpage.entity.orderinfo;
+package com.kiszka.restaurantpage.web.entity.orderinfo;
 
-import com.kiszka.restaurantpage.entity.validation.UserInfo;
-import com.kiszka.restaurantpage.entity.validation.UserService;
+import com.kiszka.restaurantpage.web.entity.validation.UserInfo;
+import com.kiszka.restaurantpage.web.entity.validation.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

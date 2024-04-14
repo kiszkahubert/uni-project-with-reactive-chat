@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.entity.validation;
+package com.kiszka.restaurantpage.web.entity.validation;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;

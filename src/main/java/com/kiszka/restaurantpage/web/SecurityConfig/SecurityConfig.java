@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.SecurityConfig;
+package com.kiszka.restaurantpage.web.SecurityConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

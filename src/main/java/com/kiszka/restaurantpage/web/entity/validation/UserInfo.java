@@ -1,6 +1,6 @@
-package com.kiszka.restaurantpage.entity.validation;
+package com.kiszka.restaurantpage.web.entity.validation;
 
-import com.kiszka.restaurantpage.entity.orderinfo.OrderDetails;
+import com.kiszka.restaurantpage.web.entity.orderinfo.OrderDetails;
 import jakarta.persistence.*;
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.entity.orderinfo;
+package com.kiszka.restaurantpage.web.entity.orderinfo;
 
 
 import java.util.List;
