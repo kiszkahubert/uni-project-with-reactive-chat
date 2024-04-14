@@ -24,7 +24,3 @@ spring:
           github:
             client-id: ${client-id}
             client-secret: ${client-secret}
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/chat_app
-      authentication-database: admin

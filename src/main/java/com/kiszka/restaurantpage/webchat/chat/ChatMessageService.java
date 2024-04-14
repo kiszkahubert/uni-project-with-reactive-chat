@@ -10,26 +10,29 @@ import java.util.List;
 
 @Service
 public class ChatMessageService {
-    private final ChatMessageRepository messageRepository;
+    private final ChatMessageService messageService;
     private final ChatRoomService chatRoomService;
+    private final AssertFalseValidator assertFalseValidator;
 
     @Autowired
-    public ChatMessageService(ChatMessageRepository messageRepository, ChatRoomService chatRoomService) {
-        this.messageRepository = messageRepository;
+    public ChatMessageService(ChatMessageService messageService, ChatRoomService chatRoomService, AssertFalseValidator assertFalseValidator) {
+        this.messageService = messageService;
         this.chatRoomService = chatRoomService;
+        this.assertFalseValidator = assertFalseValidator;
     }
     public ChatMessage save(ChatMessage chatMessage){
         var chatId = chatRoomService.
                 getChatRoomId(
                         chatMessage.getSenderId(),
+                        chatMessage.getRecipientId(),
                         true)
                 .orElseThrow();
         chatMessage.setChatId(chatId);
-        messageRepository.save(chatMessage);
+        messageService.save(chatMessage);
         return chatMessage;
     }
     public List<ChatMessage> findChatMessages(String senderId, String recipientId){
-        var chatId = chatRoomService.getChatRoomId(senderId,false);
-        return chatId.map(messageRepository::findByChatId).orElse(new ArrayList<>());
+        var chatId = chatRoomService.getChatRoomId(senderId,recipientId,false);
+        return chatId.map(messageService::findByChatId).orElse(new ArrayList<>());
     }
 }
