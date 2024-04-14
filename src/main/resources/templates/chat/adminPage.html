@@ -240,17 +240,68 @@
     let stompClient = null;
     let email = null;
     let selectedUserId = null;
-    function connect(event){
+
+    async function connect(event){
+        email = await fetchAdminEmail()
         const socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
         stompClient.connect({},onConnected,onError);
         event.preventDefault();
     }
     function onConnected() {
-        stompClient.subscribe(`/user/${email}`)
+        stompClient.subscribe(`/user/${email}/queue/messages`, onMessageReceived); //connecting user to own queue;
+        stompClient.subscribe(`/user/public`, onMessageReceived); //user/topic from java class
+        //register connected user
+        stompClient.send('/app/user.addUser',
+            {},
+            JSON.stringify({email: email,status:'ONLINE'})
+        ); //app is from setApplicationDestinationPrefixes, method is from java class user.addUser
+        //find connected users
+        findAndDisplayConnectedUsers().then();
+    }
+    async function findAndDisplayConnectedUsers(){
+        const connectedUserResponse = await fetch('/users');
+        let connectedUsers = await connectedUserResponse.json();
+        connectedUsers = connectedUsers.filter(user => user.email !== email);
+        const connectedUsersList = document.querySelector('#connectedUsers');
+        connectedUsersList.innerHTML = '';
+        connectedUsers.forEach(user => {
+            appendUserElement(user, connectedUsersList);
+            if (connectedUsers.indexOf(user) < connectedUsers.length-1){
+                const separator = document.createElement('li');
+                separator.classList.add('separator');
+                connectedUsersList.appendChild(separator);
+            }
+        });
+    }
+    function appendUserElement(user, connectedUsersList) {
+        const listItem = document.createElement('li');
+        listItem.classList.add('user-item');
+        listItem.id = user.email;
+        const emailSpan = document.createElement('span');
+        emailSpan.textContent = user.email;
+        const receivedMessages = document.createElement('span');
+        receivedMessages.textContent = '';
+        receivedMessages.classList.add('nbr-msg','hidden');
+        listItem.append(emailSpan);
+        listItem.append(receivedMessages);
+        connectedUsersList.appendChild(listItem);
     }
     function onError() {
 
+    }
+    function onMessageReceived() {
+
+    }
+    async function fetchAdminEmail(){
+        try{
+            const repsonse = await fetch('/admin');
+            const data = await repsonse.json();
+            return data.email.value.trim();
+        } catch (error){
+            console.error("Błąd pobierania danych ",error);
+            return null;
+        }
     }
     document.addEventListener('DOMContentLoaded',function (){
         connect(event);
