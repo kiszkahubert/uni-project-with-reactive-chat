@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.webchat.chat;
+package com.kiszka.restaurantpage.webchat.chat.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

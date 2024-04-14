@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.webchat.chatuser;
+package com.kiszka.restaurantpage.webchat.chatuser.pojo;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

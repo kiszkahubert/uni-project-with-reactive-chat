@@ -1,4 +1,4 @@
-package com.kiszka.restaurantpage.webchat.chatuser;
+package com.kiszka.restaurantpage.webchat.chatuser.pojo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

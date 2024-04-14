@@ -56,4 +56,8 @@ public class UserServiceImpl implements UserService {
         userDto.setEmail(userInfo.getEmail());
         return userDto;
     }
+
+    public UserInfo findAdminUser(){
+        return userRepository.findByEmail("ADMIN");
+    }
 }
