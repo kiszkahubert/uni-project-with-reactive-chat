@@ -12,6 +12,3 @@ public class ChatUser {
     private Status status;
 }
 
-enum Status{
-    ONLINE, OFFLINE;
-}

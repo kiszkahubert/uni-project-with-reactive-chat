@@ -16,7 +16,7 @@ public class ChatMessage {
     private String id;
     private String chatId;
     private String senderId;
-    private String recipientId; //TODO TO DELETE
+    private static String recipientId = "admin";
     private String content;
     private Date timestamp;
 }
