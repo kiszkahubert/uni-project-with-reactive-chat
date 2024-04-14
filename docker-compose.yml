@@ -19,7 +19,6 @@ services:
       - web_app_db
     networks:
       - webapp_net
-
 networks:
   webapp_net:
     driver: bridge
