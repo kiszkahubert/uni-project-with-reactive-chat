@@ -1,5 +1,6 @@
 package com.kiszka.restaurantpage.webchat.room;
 
+import com.kiszka.restaurantpage.web.entity.validation.UserServiceImpl;
 import com.kiszka.restaurantpage.webchat.room.pojo.ChatRoom;
 import com.kiszka.restaurantpage.webchat.room.pojo.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +13,12 @@ import java.util.Optional;
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public ChatRoomService(ChatRoomRepository chatRoomRepository) {
+    public ChatRoomService(ChatRoomRepository chatRoomRepository, UserServiceImpl userService) {
         this.chatRoomRepository = chatRoomRepository;
+        this.userService = userService;
     }
 
     public Optional<String> getChatRoomId(String senderId, String recipientId, boolean createNewRoomIfNotExists){
@@ -23,14 +26,16 @@ public class ChatRoomService {
                 .map(ChatRoom::getChatId)
                 .or(()->{
                     if (createNewRoomIfNotExists){
-                        var chatId = createChat(senderId,recipientId);
+                        var chatId = createChat();
                         return Optional.of(chatId);
                     }
                     return Optional.empty();
                 });
     }
 
-    private String createChat(String senderId, String recipientId) { //tu w argumencie bedzie trzeba podac,uzytkownika zalogowanego i admina
+    private String createChat() {
+        var senderId = userService.getCurrentUser().getEmail();
+        var recipientId = userService.getAdminUser().getEmail();
         var chatId = String.format("%s_%s",senderId,recipientId);
         ChatRoom senderRecipient = ChatRoom.builder()
                 .chatId(chatId)

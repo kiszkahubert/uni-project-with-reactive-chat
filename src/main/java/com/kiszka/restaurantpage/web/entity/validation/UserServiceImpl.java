@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
-    public UserInfo findAdminUser(){
+    public UserInfo getAdminUser(){
         return userRepository.findByEmail("ADMIN");
     }
 }
