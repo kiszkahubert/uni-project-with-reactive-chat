@@ -1,14 +1,20 @@
 package com.kiszka.restaurantpage.webchat.room;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+
 public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
+
+    @Autowired
+    public ChatRoomService(ChatRoomRepository chatRoomRepository) {
+        this.chatRoomRepository = chatRoomRepository;
+    }
+
     public Optional<String> getChatRoomId(String senderId, String recipientId, boolean createNewRoomIfNotExists){
         return chatRoomRepository.findBySenderIdAndRecipientId(senderId, recipientId)
                 .map(ChatRoom::getChatId)

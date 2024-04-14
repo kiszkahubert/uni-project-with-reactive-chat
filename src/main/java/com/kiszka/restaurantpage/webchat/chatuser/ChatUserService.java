@@ -10,6 +10,7 @@ import java.util.List;
 @Service
 public class ChatUserService {
     private final ChatUserRepository repository;
+    private final
 
     @Autowired
     public ChatUserService(ChatUserRepository repository) {
@@ -17,6 +18,7 @@ public class ChatUserService {
     }
 
     public void saveChatUser(ChatUser user){
+
         user.setStatus(Status.ONLINE);
         repository.save(user);
     }
