@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 public class ChatNotification {
     private String id;
     private String senderId;
-    private static String recipientId = "admin";
+    private String recipientId;
     private String content;
 }
