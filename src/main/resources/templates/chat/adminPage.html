@@ -237,11 +237,24 @@
     const messageForm = document.querySelector('#messageForm');
     const messageInput = document.querySelector('#message');
     const chatArea = document.querySelector('#chat-messages');
-
     let stompClient = null;
-    let nickname = null;
-    let fullname = null;
+    let email = null;
     let selectedUserId = null;
+    function connect(event){
+        const socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({},onConnected,onError);
+        event.preventDefault();
+    }
+    function onConnected() {
+        stompClient.subscribe(`/user/${email}`)
+    }
+    function onError() {
+
+    }
+    document.addEventListener('DOMContentLoaded',function (){
+        connect(event);
+    });
 </script>
 </body>
 </html>

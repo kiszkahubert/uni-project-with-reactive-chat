@@ -3,8 +3,10 @@ package com.kiszka.restaurantpage.web.controllers;
 import com.kiszka.restaurantpage.web.entity.validation.UserDto;
 import com.kiszka.restaurantpage.web.entity.validation.UserInfo;
 import com.kiszka.restaurantpage.web.entity.validation.UserService;
+import com.kiszka.restaurantpage.web.entity.validation.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,8 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
 @Controller
-public class ValidationControllers {
+public class ValidationControllers { ;
     private final UserService userService;
+    @Autowired
     public ValidationControllers(UserService userService){
         this.userService = userService;
     }

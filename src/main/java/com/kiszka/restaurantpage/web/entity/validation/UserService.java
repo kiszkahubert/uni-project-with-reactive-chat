@@ -7,4 +7,5 @@ public interface UserService {
     UserInfo findUserByEmail(String email);
     UserInfo getCurrentUser();
     List<UserDto> findAllUsers();
+    UserInfo getAdmin();
 }

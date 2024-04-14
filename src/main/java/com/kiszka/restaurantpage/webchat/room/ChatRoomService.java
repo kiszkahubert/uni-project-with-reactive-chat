@@ -35,7 +35,7 @@ public class ChatRoomService {
 
     private String createChat() {
         var senderId = userService.getCurrentUser().getEmail();
-        var recipientId = userService.getAdminUser().getEmail();
+        var recipientId = userService.getAdmin().getEmail();
         var chatId = String.format("%s_%s",senderId,recipientId);
         ChatRoom senderRecipient = ChatRoom.builder()
                 .chatId(chatId)

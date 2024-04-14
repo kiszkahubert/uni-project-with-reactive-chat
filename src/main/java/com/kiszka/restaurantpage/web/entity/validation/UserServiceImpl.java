@@ -33,6 +33,12 @@ public class UserServiceImpl implements UserService {
     public UserInfo findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public UserInfo getAdmin() {
+        return userRepository.findByRole("ADMIN");
+    }
+
     @Override
     public List<UserDto> findAllUsers() {
         List<UserInfo> users = userRepository.findAll();
@@ -55,9 +61,5 @@ public class UserServiceImpl implements UserService {
         UserDto userDto = new UserDto();
         userDto.setEmail(userInfo.getEmail());
         return userDto;
-    }
-
-    public UserInfo getAdminUser(){
-        return userRepository.findByEmail("ADMIN");
     }
 }

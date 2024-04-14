@@ -30,7 +30,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authz->authz
-                .requestMatchers("/register/**","/css/**","/js/**","/images/**","/loginstyle.css", "/api/endpoint","/home").permitAll()
+                .requestMatchers("/register/**","/css/**","/js/**","/images/**","/loginstyle.css", "/api/endpoint","/home","/admin").permitAll()
                 .requestMatchers("/home/profile").authenticated()
                 .anyRequest().authenticated());
         http.formLogin(formLogin ->
