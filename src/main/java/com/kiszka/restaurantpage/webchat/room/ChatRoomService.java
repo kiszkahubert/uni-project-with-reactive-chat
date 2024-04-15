@@ -1,9 +1,8 @@
 package com.kiszka.restaurantpage.webchat.room;
 
-import com.kiszka.restaurantpage.web.entity.validation.UserServiceImpl;
+import com.kiszka.restaurantpage.web.entity.validation.UserService;
 import com.kiszka.restaurantpage.webchat.room.pojo.ChatRoom;
 import com.kiszka.restaurantpage.webchat.room.pojo.ChatRoomRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +12,10 @@ import java.util.Optional;
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @Autowired
-    public ChatRoomService(ChatRoomRepository chatRoomRepository, UserServiceImpl userService) {
+    public ChatRoomService(ChatRoomRepository chatRoomRepository, UserService userService) {
         this.chatRoomRepository = chatRoomRepository;
         this.userService = userService;
     }

@@ -29,13 +29,12 @@ public class ChatController {
         ChatMessage savedMessage = chatMessageService.save(chatMessage);
         messagingTemplate.convertAndSendToUser(chatMessage.getRecipientId(),
                 "/queue/messages",
-                ChatNotification.builder()
-                        .id(savedMessage.getId())
-                        .senderId(savedMessage.getSenderId())
-                        .recipientId(savedMessage.getRecipientId())
-                        .content(savedMessage.getContent())
-                        .build()
-                );
+                new ChatNotification(
+                        savedMessage.getId(),
+                        savedMessage.getSenderId(),
+                        savedMessage.getRecipientId(),
+                        savedMessage.getContent()
+                ));
     }
 
     @GetMapping("/messages/{senderId}/{recipientId}")

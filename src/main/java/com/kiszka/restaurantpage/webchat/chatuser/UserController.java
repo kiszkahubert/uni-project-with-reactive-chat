@@ -20,15 +20,15 @@ public class UserController {
         this.chatUserService = chatUserService;
     }
 
-    @MessageMapping("user.addUser")//after user is connected send message to queue
-    @SendTo("/user/topic") //new queue which you can pull data from, we need to subscribe to it from front so we get connected users
+    @MessageMapping("/user.addUser")//after user is connected send message to queue
+    @SendTo("/user/public") //new queue which you can pull data from, we need to subscribe to it from front so we get connected users
     public ChatUser addUser(@Payload ChatUser chatUser){
         chatUserService.saveChatUser(chatUser);
         return chatUser;
     }
 
     @MessageMapping("/user.disconnectUser")
-    @SendTo("/user/topic")
+    @SendTo("/user/public")
     public ChatUser disconnect(@Payload ChatUser chatUser){
         chatUserService.disconnect(chatUser);
         return chatUser;

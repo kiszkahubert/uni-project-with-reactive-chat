@@ -251,7 +251,7 @@
         stompClient.subscribe(`/user/${email}/queue/messages`, onMessageReceived); //connecting user to own queue;
         stompClient.subscribe(`/user/public`, onMessageReceived); //user/topic from java class
         //register connected user
-        stompClient.send('/app/user.addUser',
+        stompClient.send("/app/user.addUser",
             {},
             JSON.stringify({email: email,status:'ONLINE'})
         ); //app is from setApplicationDestinationPrefixes, method is from java class user.addUser
@@ -348,8 +348,9 @@
                 content: messageContent,
                 timestamp: new Date()
             };
-            stompClient.send('/app/chat',{},JSON.stringify(chatMessage));
+            stompClient.send("/app/chat",{},JSON.stringify(chatMessage));
             displayMessage(email,messageContent);
+            messageInput.value = '';
         }
         chatArea.scrollTop = chatArea.scrollHeight;
         event.preventDefault();
