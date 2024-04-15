@@ -212,13 +212,6 @@
 </head>
 <body>
 <div class="chat-container" id="chat-page">
-    <div class="users-list">
-        <div class="users-list-container">
-            <h2>User's Requests</h2>
-            <ul id="connectedUsers">
-            </ul>
-        </div>
-    </div>
     <div class="chat-area">
         <div class="chat-area" id="chat-messages">
         </div>
@@ -241,7 +234,7 @@
     let selectedUserId = null;
 
     async function connect(event){
-        email = await fetchAdminEmail()
+        email = await fetchUserEmail()
         const socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
         stompClient.connect({},onConnected,onError);
@@ -257,45 +250,6 @@
         ); //app is from setApplicationDestinationPrefixes, method is from java class user.addUser
         //find connected users
         findAndDisplayConnectedUsers().then();
-    }
-    async function findAndDisplayConnectedUsers(){
-        const connectedUserResponse = await fetch('/users');
-        let connectedUsers = await connectedUserResponse.json();
-        connectedUsers = connectedUsers.filter(user => user.email !== email);
-        const connectedUsersList = document.querySelector('#connectedUsers');
-        connectedUsersList.innerHTML = '';
-        connectedUsers.forEach(user => {
-            appendUserElement(user, connectedUsersList);
-            if (connectedUsers.indexOf(user) < connectedUsers.length-1){
-                const separator = document.createElement('li');
-                separator.classList.add('separator');
-                connectedUsersList.appendChild(separator);
-            }
-        });
-    }
-    function appendUserElement(user, connectedUsersList) {
-        const listItem = document.createElement('li');
-        listItem.classList.add('user-item');
-        listItem.id = user.email;
-        const emailSpan = document.createElement('span');
-        emailSpan.textContent = user.email;
-        const receivedMessages = document.createElement('span');
-        receivedMessages.textContent = '';
-        receivedMessages.classList.add('nbr-msg','hidden');
-        listItem.append(emailSpan);
-        listItem.append(receivedMessages);
-        listItem.addEventListener('click',userItemClick);
-        connectedUsersList.appendChild(listItem);
-    }
-    function userItemClick(event){
-        document.querySelectorAll('.user-item').forEach(item => item.classList.remove('active'));
-        messageForm.classList.remove('hidden');
-        const clickedUser = event.currentTarget;
-        clickedUser.classList.add('active');
-        selectedUserId = clickedUser.getAttribute('id');
-        fetchAndDisplayUserChat().then();
-        const nbrMsg = clickedUser.querySelector('.nbr-msg');
-        nbrMsg.classList.add('hidden');
     }
     async function fetchAndDisplayUserChat(){ // do poprawy bardzo mozliwe ze bedzie ta funkcja
         const userChatResponse = await fetch(`/messages/${email}/${selectedUserId}`);
@@ -354,12 +308,9 @@
         chatArea.scrollTop = chatArea.scrollHeight;
         event.preventDefault();
     }
-    function onLogout(){
-        stompClient.send('/app/user.disconnectUser',{},JSON.stringify({email:email,status:'OFFLINE'}));
-    }
-    async function fetchAdminEmail(){
+    async function fetchUserEmail(){
         try{
-            const repsonse = await fetch('/admin');
+            const repsonse = await fetch('/getuser');
             const data = await repsonse.json();
             return data.email;
         } catch (error){
@@ -371,7 +322,6 @@
         connect(event);
     });
     messageForm.addEventListener('submit',sendMessage,true);
-    window.onbeforeunload = () => onLogout();
 </script>
 </body>
 </html>

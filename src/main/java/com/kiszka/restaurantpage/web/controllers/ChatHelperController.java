@@ -15,4 +15,8 @@ public class ChatHelperController {
     public UserInfo getAdminUser() {
         return userService.getAdmin();
     }
+    @GetMapping("/getuser")
+    public UserInfo getUserInfo(){
+        return userService.getCurrentUser();
+    }
 }
