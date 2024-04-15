@@ -315,12 +315,39 @@
         }
         const message = document.createElement('p');
         message.textContent = content;
+        messageContainer.appendChild(messageContainer);
+        chatArea.appendChild(messageContainer);
     }
     function onError() {
 
     }
-    function onMessageReceived() {
+    async function onMessageReceived(payload) {
+        await findAndDisplayConnectedUsers();
+        const message = JSON.parse(payload.body);
+        if(selectedUserId && selectedUserId === message.senderId){
+            displayMessage(message.senderId,message.content);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+        if(selectedUserId){
+            document.querySelector(`#${selectedUserId}`).classList.add('active');
+        } else{
 
+        }
+    }
+    function sendMessage(event){
+        const messageContent = messageInput.value.trim();
+        if(messageContent && stompClient){
+            const chatMessage = {
+                senderId: email,
+                recipientId: selectedUserId,
+                content: messageContent,
+                timestamp: new Date()
+            };
+            stompClient.send('/app/chat',{},JSON.stringify(chatMessage));
+            displayMessage(email,messageContent);
+        }
+        chatArea.scrollTop = chatArea.scrollHeight;
+        event.preventDefault();
     }
     async function fetchAdminEmail(){
         try{
@@ -335,6 +362,7 @@
     document.addEventListener('DOMContentLoaded',function (){
         connect(event);
     });
+    messageForm.addEventListener('submit',sendMessage,true);
 </script>
 </body>
 </html>
