@@ -285,7 +285,36 @@
         receivedMessages.classList.add('nbr-msg','hidden');
         listItem.append(emailSpan);
         listItem.append(receivedMessages);
+        listItem.addEventListener('click',userItemClick);
         connectedUsersList.appendChild(listItem);
+    }
+    function userItemClick(event){
+        document.querySelectorAll('.user-item').forEach(item => item.classList.remove('active'));
+        messageForm.classList.remove('hidden');
+        const clickedUser = event.currentTarget;
+        clickedUser.classList.add('active');
+        selectedUserId = clickedUser.getAttribute('id');
+        fetchAndDisplayUserChat().then();
+        const nbrMsg = clickedUser.querySelector('.nbr-msg');
+        nbrMsg.classList.add('hidden');
+    }
+    async function fetchAndDisplayUserChat(){ // do poprawy bardzo mozliwe ze bedzie ta funkcja
+        const userChatResponse = await fetch(`/messages/${email}/${selectedUserId}`);
+        const userChat = await userChatResponse.json();
+        chatArea.innerHTML = '';
+        userChat.forEach(chat => displayMessage(chat.senderId,chat.content));
+        chatArea.scrollTop = chatArea.scrollHeight;
+    }
+    function displayMessage(senderId,content){
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('message');
+        if(senderId === email){
+            messageContainer.classList.add('sender');
+        } else{
+            messageContainer.classList.add('receiver');
+        }
+        const message = document.createElement('p');
+        message.textContent = content;
     }
     function onError() {
 
@@ -297,7 +326,7 @@
         try{
             const repsonse = await fetch('/admin');
             const data = await repsonse.json();
-            return data.email.value.trim();
+            return data.email;
         } catch (error){
             console.error("Błąd pobierania danych ",error);
             return null;
