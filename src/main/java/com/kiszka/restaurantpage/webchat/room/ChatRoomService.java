@@ -25,16 +25,14 @@ public class ChatRoomService {
                 .map(ChatRoom::getChatId)
                 .or(()->{
                     if (createNewRoomIfNotExists){
-                        var chatId = createChat();
+                        var chatId = createChat(senderId,recipientId);
                         return Optional.of(chatId);
                     }
                     return Optional.empty();
                 });
     }
 
-    private String createChat() {
-        var senderId = userService.getCurrentUser().getEmail();
-        var recipientId = userService.getAdmin().getEmail();
+    private String createChat(String senderId, String recipientId) {
         var chatId = String.format("%s_%s",senderId,recipientId);
         ChatRoom senderRecipient = ChatRoom.builder()
                 .chatId(chatId)

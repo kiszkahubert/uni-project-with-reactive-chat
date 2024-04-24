@@ -358,6 +358,7 @@
     function onLogout(){
         stompClient.send('/app/user.disconnectUser',{},JSON.stringify({email:email,status:'OFFLINE'}));
     }
+
     async function fetchAdminEmail(){
         try{
             const repsonse = await fetch('/admin');
