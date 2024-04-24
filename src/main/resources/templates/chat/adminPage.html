@@ -224,8 +224,8 @@
         </div>
         <form id="messageForm" name="messageForm" class="hidden">
             <div class="message-input">
-                <input autocomplete="off" type="text" id="message" placeholder="Type your message...">
-                <button>Send</button>
+                <input autocomplete="off" type="text" id="message" placeholder="Wpisz swoją wiadomość!">
+                <button>Wyślij!</button>
             </div>
         </form>
     </div>
@@ -315,7 +315,7 @@
         }
         const message = document.createElement('p');
         message.textContent = content;
-        messageContainer.appendChild(messageContainer);
+        messageContainer.appendChild(message);
         chatArea.appendChild(messageContainer);
     }
     function onError() {

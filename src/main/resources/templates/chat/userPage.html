@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Page</title>
+    <title>User Page</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -231,7 +231,7 @@
     const chatArea = document.querySelector('#chat-messages');
     let stompClient = null;
     let email = null;
-    let selectedUserId = null;
+    let selectedUserId = 'haslo111@jest.haslem';
 
     async function connect(event){
         email = await fetchUserEmail()
@@ -266,7 +266,7 @@
         }
         const message = document.createElement('p');
         message.textContent = content;
-        messageContainer.appendChild(messageContainer);
+        messageContainer.appendChild(message);
         chatArea.appendChild(messageContainer);
     }
     function onError() {
@@ -274,15 +274,8 @@
     }
     async function onMessageReceived(payload) {
         const message = JSON.parse(payload.body);
-        if(selectedUserId && selectedUserId === message.senderId){
-            displayMessage(message.senderId,message.content);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-        if(selectedUserId){
-            document.querySelector(`#${selectedUserId}`).classList.add('active');
-        } else{
-            messageForm.classList.add('hidden');
-        }
+        displayMessage(message.senderId,message.content);
+        chatArea.scrollTop = chatArea.scrollHeight;
         const notifiedUser = document.querySelector(`#${message.senderId}`);
         if(notifiedUser && !notifiedUser.contains('active')){
             const nbrMsg = notifiedUser.querySelector('.nbr-msg');
