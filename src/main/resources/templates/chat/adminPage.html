@@ -296,6 +296,7 @@
         fetchAndDisplayUserChat().then();
         const nbrMsg = clickedUser.querySelector('.nbr-msg');
         nbrMsg.classList.add('hidden');
+        nbrMsg.textContent = '';
     }
     async function fetchAndDisplayUserChat(){ // do poprawy bardzo mozliwe ze bedzie ta funkcja
         const userChatResponse = await fetch(`/messages/${email}/${selectedUserId}`);

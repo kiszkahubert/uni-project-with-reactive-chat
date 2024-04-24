@@ -2,11 +2,13 @@ package com.kiszka.restaurantpage.webchat.controllers;
 
 import com.kiszka.restaurantpage.web.entity.validation.UserInfo;
 import com.kiszka.restaurantpage.web.entity.validation.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@Slf4j
 public class ChatEndpointsController {
     private final UserService userService;
 
@@ -15,8 +17,8 @@ public class ChatEndpointsController {
         this.userService = userService;
     }
 
-    @GetMapping("/chat")
-    public String getAdmingPage(){
+    @GetMapping("/chatabc")
+    public String getAdminPage(){
         UserInfo userInfo = userService.getCurrentUser();
         String role = userInfo.getRole();
         if(role.equals("ADMIN")){

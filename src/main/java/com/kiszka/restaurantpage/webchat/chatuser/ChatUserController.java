@@ -1,6 +1,7 @@
 package com.kiszka.restaurantpage.webchat.chatuser;
 
 import com.kiszka.restaurantpage.webchat.chatuser.pojo.ChatUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -12,17 +13,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
-public class UserController {
+@Slf4j
+public class ChatUserController {
     private final ChatUserService chatUserService;
 
     @Autowired
-    public UserController(ChatUserService chatUserService) {
+    public ChatUserController(ChatUserService chatUserService) {
         this.chatUserService = chatUserService;
     }
 
     @MessageMapping("/user.addUser")//after user is connected send message to queue
     @SendTo("/user/public") //new queue which you can pull data from, we need to subscribe to it from front so we get connected users
     public ChatUser addUser(@Payload ChatUser chatUser){
+        log.info("{}:{}",chatUser.getEmail(),chatUser.getStatus());
         chatUserService.saveChatUser(chatUser);
         return chatUser;
     }

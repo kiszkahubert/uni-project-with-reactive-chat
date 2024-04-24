@@ -248,8 +248,6 @@
             {},
             JSON.stringify({email: email,status:'ONLINE'})
         ); //app is from setApplicationDestinationPrefixes, method is from java class user.addUser
-        //find connected users
-        findAndDisplayConnectedUsers().then();
     }
     async function fetchAndDisplayUserChat(){ // do poprawy bardzo mozliwe ze bedzie ta funkcja
         const userChatResponse = await fetch(`/messages/${email}/${selectedUserId}`);
@@ -275,7 +273,6 @@
 
     }
     async function onMessageReceived(payload) {
-        await findAndDisplayConnectedUsers();
         const message = JSON.parse(payload.body);
         if(selectedUserId && selectedUserId === message.senderId){
             displayMessage(message.senderId,message.content);

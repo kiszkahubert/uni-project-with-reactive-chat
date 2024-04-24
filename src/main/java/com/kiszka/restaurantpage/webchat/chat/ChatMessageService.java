@@ -14,6 +14,7 @@ public class ChatMessageService {
 
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomService chatRoomService;
+
     @Autowired
     public ChatMessageService(ChatMessageRepository chatMessageRepository,ChatRoomService chatRoomService) {
         this.chatMessageRepository = chatMessageRepository;
@@ -21,7 +22,8 @@ public class ChatMessageService {
     }
 
     public ChatMessage save(ChatMessage chatMessage){
-        var chatId = chatRoomService.getChatRoomId(chatMessage.getSenderId(),chatMessage.getRecipientId(),true)
+        var chatId = chatRoomService
+                .getChatRoomId(chatMessage.getSenderId(),chatMessage.getRecipientId(),true)
                 .orElseThrow();
         chatMessage.setChatId(chatId);
         chatMessageRepository.save(chatMessage);

@@ -2,6 +2,7 @@ package com.kiszka.restaurantpage.webchat.chat;
 
 import com.kiszka.restaurantpage.webchat.chat.pojo.ChatMessage;
 import com.kiszka.restaurantpage.webchat.chat.pojo.ChatNotification;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class ChatController {
+
     private final SimpMessagingTemplate messagingTemplate;
     private final ChatMessageService chatMessageService;
 
@@ -27,6 +30,7 @@ public class ChatController {
     @MessageMapping("/chat")
     public void processMessage(@Payload ChatMessage chatMessage){
         ChatMessage savedMessage = chatMessageService.save(chatMessage);
+        log.info("{} {} {} {} {}",chatMessage.getId(),chatMessage.getChatId(),chatMessage.getSenderId(),chatMessage.getRecipientId(),chatMessage.getContent());
         messagingTemplate.convertAndSendToUser(chatMessage.getRecipientId(),
                 "/queue/messages",
                 new ChatNotification(
@@ -38,7 +42,7 @@ public class ChatController {
     }
 
     @GetMapping("/messages/{senderId}/{recipientId}")
-    public ResponseEntity<List<ChatMessage>> findChatMessages(@PathVariable("senderId") String senderId,@PathVariable("recipientId") String recipientId){
+    public ResponseEntity<List<ChatMessage>> findChatMessages(@PathVariable String senderId,@PathVariable String recipientId){
         return ResponseEntity.ok(chatMessageService.findChatMessages(senderId,recipientId));
     }
 }
