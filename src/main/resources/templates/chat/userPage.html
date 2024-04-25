@@ -224,7 +224,6 @@
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script>
     const messageForm = document.querySelector('#messageForm');
     const messageInput = document.querySelector('#message');
@@ -249,7 +248,6 @@
             JSON.stringify({email: email,status:'ONLINE'})
         ); //app is from setApplicationDestinationPrefixes, method is from java class user.addUser
     }
-
     async function fetchAndDisplayUserChat() {
         try{
             const userChatResponse = await fetch(`/messages/${email}/${selectedUserId}`);
@@ -257,9 +255,7 @@
             chatArea.innerHTML = '';
             userChat.forEach(chat => displayMessage(chat.senderId, chat.content));
 
-        } catch (error){
-
-        }
+        } catch (error){}
     }
     function displayMessage(senderId,content){
         fetchAndDisplayUserChat();
@@ -320,5 +316,6 @@
     });
     messageForm.addEventListener('submit',sendMessage,true);
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </body>
 </html>
