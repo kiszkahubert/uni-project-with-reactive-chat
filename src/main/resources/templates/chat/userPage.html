@@ -215,10 +215,10 @@
     <div class="chat-area">
         <div class="chat-area" id="chat-messages">
         </div>
-        <form id="messageForm" name="messageForm" class="hidden">
+        <form id="messageForm" name="messageForm">
             <div class="message-input">
-                <input autocomplete="off" type="text" id="message" placeholder="Type your message...">
-                <button>Send</button>
+                <input autocomplete="off" type="text" id="message" placeholder="Wpisz swoją wiadomość">
+                <button>Wyślij!</button>
             </div>
         </form>
     </div>
@@ -254,11 +254,11 @@
             const userChat = await userChatResponse.json();
             chatArea.innerHTML = '';
             userChat.forEach(chat => displayMessage(chat.senderId, chat.content));
+        } catch (error){
 
-        } catch (error){}
+        }
     }
     function displayMessage(senderId,content){
-        fetchAndDisplayUserChat();
         const messageContainer = document.createElement('div');
         messageContainer.classList.add('message');
         if(senderId === email){
@@ -277,14 +277,9 @@
     }
     async function onMessageReceived(payload) {
         const message = JSON.parse(payload.body);
+        console.log(message);
         displayMessage(message.senderId,message.content);
         chatArea.scrollTop = chatArea.scrollHeight;
-        const notifiedUser = document.querySelector(`#${message.senderId}`);
-        if(notifiedUser && !notifiedUser.contains('active')){
-            const nbrMsg = notifiedUser.querySelector('.nbr-msg');
-            nbrMsg.classList.remove('hidden');
-            nbrMsg.textContent = '';
-        }
     }
     function sendMessage(event){
         const messageContent = messageInput.value.trim();
@@ -311,6 +306,11 @@
             return null;
         }
     }
+    document.addEventListener('DOMContentLoaded', function() {
+        setInterval(async function(){
+            await fetchAndDisplayUserChat();
+        },100);
+    });
     document.addEventListener('DOMContentLoaded',function (){
         connect(event);
     });

@@ -30,7 +30,6 @@ public class ChatController {
     @MessageMapping("/chat")
     public void processMessage(@Payload ChatMessage chatMessage){
         ChatMessage savedMessage = chatMessageService.save(chatMessage);
-        log.info("{} {} {} {} {}",chatMessage.getId(),chatMessage.getChatId(),chatMessage.getSenderId(),chatMessage.getRecipientId(),chatMessage.getContent());
         messagingTemplate.convertAndSendToUser(chatMessage.getRecipientId(),
                 "/queue/messages",
                 new ChatNotification(
