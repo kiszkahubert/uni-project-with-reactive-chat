@@ -5,7 +5,7 @@
     <title>User Page</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f0f0f0;
@@ -200,10 +200,6 @@
             width: 100%;
         }
 
-        .hidden {
-            display: none;
-        }
-
         a.logout {
             color: #fff;
             text-decoration: none;
@@ -240,13 +236,13 @@
         event.preventDefault();
     }
     function onConnected() {
-        stompClient.subscribe(`/user/${email}/queue/messages`, onMessageReceived); //connecting user to own queue;
-        stompClient.subscribe(`/user/public`, onMessageReceived); //user/topic from java class
+        stompClient.subscribe(`/user/${email}/queue/messages`, onMessageReceived);
+        stompClient.subscribe(`/user/public`, onMessageReceived);
         //register connected user
         stompClient.send('/app/user.addUser',
             {},
             JSON.stringify({email: email,status:'ONLINE'})
-        ); //app is from setApplicationDestinationPrefixes, method is from java class user.addUser
+        );
     }
     async function fetchAndDisplayUserChat() {
         try{
@@ -270,14 +266,12 @@
         message.textContent = content;
         messageContainer.appendChild(message);
         chatArea.appendChild(messageContainer);
-
     }
     function onError() {
 
     }
     async function onMessageReceived(payload) {
         const message = JSON.parse(payload.body);
-        console.log(message);
         displayMessage(message.senderId,message.content);
         chatArea.scrollTop = chatArea.scrollHeight;
     }
