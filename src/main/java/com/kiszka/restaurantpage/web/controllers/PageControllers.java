@@ -49,7 +49,6 @@ public class PageControllers {
     }
     @PostMapping("/api/endpoint")
     public ResponseEntity<String> receiveData(@Valid @RequestBody FormData data) throws JsonProcessingException {
-        log.info(data.getName()+" "+data.getEmail()+" "+data.getPhoneNumber()+" "+data.getTopic()+" "+data.getMessage());
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString("Data has been received");
         emailService.sendEmail(data);
@@ -67,7 +66,6 @@ public class PageControllers {
                     obj.getSauce(),
                     obj.getMeat()
             ));
-            log.info(obj.toString());
         }
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString("Data has been received");

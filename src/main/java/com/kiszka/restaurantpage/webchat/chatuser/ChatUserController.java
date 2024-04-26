@@ -22,10 +22,12 @@ public class ChatUserController {
         this.chatUserService = chatUserService;
     }
 
-    @MessageMapping("/user.addUser")//after user is connected send message to queue
-    @SendTo("/user/public") //new queue which you can pull data from, we need to subscribe to it from front so we get connected users
+    @MessageMapping("/user.addUser")
+    @SendTo("/user/public")
     public ChatUser addUser(@Payload ChatUser chatUser){
-        log.info("{}:{}",chatUser.getEmail(),chatUser.getStatus());
+        if(chatUser.getEmail() == null){
+            return null;
+        }
         chatUserService.saveChatUser(chatUser);
         return chatUser;
     }
@@ -37,7 +39,7 @@ public class ChatUserController {
         return chatUser;
     }
     @GetMapping("/users")
-    public ResponseEntity<List<ChatUser>> findConnectedUsers(){ //czyli to powinno byc po stronie admina zeby mogl widziec wszystkich
+    public ResponseEntity<List<ChatUser>> findConnectedUsers(){
         return ResponseEntity.ok(chatUserService.findConnectedChatUsers());
     }
 }

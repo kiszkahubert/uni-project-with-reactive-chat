@@ -22,15 +22,15 @@
             min-height: 600px;
             max-height: 600px;
             margin: 20px;
-            border: 1px solid #ccc;
-            background-color: #fff;
+            border: 1px solid #CCCCCC;
+            background-color: #FFFFFF;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
         .users-list {
             flex: 1;
-            border-right: 1px solid #ccc;
+            border-right: 1px solid #CCCCCC;
             padding: 20px 20px 20px 40px;
             box-sizing: border-box;
             background-color: #3498DB;
@@ -74,7 +74,7 @@
         }
         .separator {
             height: 1px;
-            background-color: #ccc;
+            background-color: #CCCCCC;
             margin: 10px 0;
         }
         .chat-area {
@@ -136,46 +136,9 @@
             background-color: #3498db;
             color: #fff;
             border-radius: 5px;
-            cursor: pointer;
-        }
-        .user-form {
-            max-width: 400px;
-            padding: 40px;
-            box-sizing: border-box;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        .user-form h2 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .user-form label {
-            display: block;
-            margin-bottom: 8px;
-        }
-        .user-form input {
-            width: 100%;
-            padding: 10px 0;
-            border: 1px solid #CCCCCC;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .user-form button {
-            padding: 12px;
-            border: none;
-            background-color: #3498DB;
-            color: #FFFFFF;
-            border-radius: 5px;
-            width: 100%;
         }
         .hidden {
             display: none;
-        }
-        a.logout {
-            color: #FFFFFF;
-            text-decoration: none;
         }
     </style>
 </head>
@@ -217,14 +180,13 @@
         event.preventDefault();
     }
     function onConnected() {
-        stompClient.subscribe(`/user/${email}/queue/messages`, onMessageReceived); //connecting user to own queue;
-        stompClient.subscribe(`/user/public`, onMessageReceived); //user/topic from java class
+        stompClient.subscribe(`/user/${email}/queue/messages`, onMessageReceived);
+        stompClient.subscribe(`/user/public`, onMessageReceived);
         //register connected user
         stompClient.send("/app/user.addUser",
             {},
             JSON.stringify({email: email,status:'ONLINE'})
-        ); //app is from setApplicationDestinationPrefixes, method is from java class user.addUser
-        //find connected users
+        );
         findAndDisplayConnectedUsers().then();
     }
     async function findAndDisplayConnectedUsers(){
@@ -267,7 +229,7 @@
         nbrMsg.classList.add('hidden');
         nbrMsg.textContent = '';
     }
-    async function fetchAndDisplayUserChat(){ // do poprawy bardzo mozliwe ze bedzie ta funkcja
+    async function fetchAndDisplayUserChat(){
         const userChatResponse = await fetch(`/messages/${email}/${selectedUserId}`);
         const userChat = await userChatResponse.json();
         chatArea.innerHTML = '';
@@ -287,9 +249,7 @@
         messageContainer.appendChild(message);
         chatArea.appendChild(messageContainer);
     }
-    function onError() {
-
-    }
+    function onError() {}
     async function onMessageReceived(payload) {
         await findAndDisplayConnectedUsers();
         const message = JSON.parse(payload.body);
@@ -331,7 +291,7 @@
 
     async function fetchAdminEmail(){
         try{
-            const repsonse = await fetch('/admin');
+            const repsonse = await fetch('/get/admin');
             const data = await repsonse.json();
             return data.email;
         } catch (error){
@@ -343,7 +303,6 @@
         connect(event);
     });
     messageForm.addEventListener('submit',sendMessage,true);
-    window.onbeforeunload = () => onLogout();
 </script>
 </body>
 </html>

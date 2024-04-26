@@ -11,11 +11,11 @@ public class ChatHelperController {
     @Autowired
     private UserServiceImpl userService;
 
-    @GetMapping("/admin")
+    @GetMapping("/get/admin")
     public UserInfo getAdminUser() {
         return userService.getAdmin();
     }
-    @GetMapping("/getuser")
+    @GetMapping("/get/user")
     public UserInfo getUserInfo(){
         return userService.getCurrentUser();
     }
