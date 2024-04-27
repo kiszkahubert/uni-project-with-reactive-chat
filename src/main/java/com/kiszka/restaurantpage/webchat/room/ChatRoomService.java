@@ -25,7 +25,7 @@ public class ChatRoomService {
                 .map(ChatRoom::getChatId)
                 .or(()->{
                     if (createNewRoomIfNotExists){
-                        String chatId = createChat(senderId,recipientId);
+                        var chatId = createChat(senderId,recipientId);
                         return Optional.of(chatId);
                     }
                     return Optional.empty();
@@ -38,26 +38,23 @@ public class ChatRoomService {
     }
 
     private String createChat(String senderId, String recipientId) {
-        if(senderId != null && recipientId != null){
-            var chatId = String.format("%s_%s",senderId,recipientId);
-            ChatRoom senderRecipient = ChatRoom
-                    .builder()
-                    .chatId(chatId)
-                    .senderId(senderId)
-                    .recipientId(recipientId)
-                    .build();
+        var chatId = String.format("%s_%s",senderId,recipientId);
+        ChatRoom senderRecipient = ChatRoom
+                .builder()
+                .chatId(chatId)
+                .senderId(senderId)
+                .recipientId(recipientId)
+                .build();
 
-            ChatRoom recipientSender = ChatRoom
-                    .builder()
-                    .chatId(chatId)
-                    .senderId(recipientId)
-                    .recipientId(senderId)
-                    .build();
+        ChatRoom recipientSender = ChatRoom
+                .builder()
+                .chatId(chatId)
+                .senderId(recipientId)
+                .recipientId(senderId)
+                .build();
 
-            chatRoomRepository.save(senderRecipient);
-            chatRoomRepository.save(recipientSender);
-            return chatId;
-        }
-        return null;
+        chatRoomRepository.save(senderRecipient);
+        chatRoomRepository.save(recipientSender);
+        return chatId;
     }
 }
