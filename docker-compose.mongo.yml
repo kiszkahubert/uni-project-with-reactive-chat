@@ -2,7 +2,7 @@ version: '1'
 services:
   mongodb:
     image: mongo
-    container_name: mongo_db
+    container_name: mongo_db_chat_app
     ports:
       - 27017:27017
     volumes:
@@ -10,16 +10,18 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=localadmin
       - MONGO_INITDB_ROOT_PASSWORD=localadmin
+    networks:
+      - webapp_chat_net
 
   web_app_db:
     image: restaurantapp_db
     ports:
       - "1521:1521"
     networks:
-      - webapp_net
+      - webapp_chat_net
 
   web_app:
-    image: web_app
+    image: web_app_with_chat
     ports:
       - "8080:8080"
     environment:
@@ -29,12 +31,13 @@ services:
       - client-secret=${client-secret}
     depends_on:
       - web_app_db
+      - mongodb
     networks:
-      - webapp_net
+      - webapp_chat_net
 
 volumes:
   mongo: {}
 
 networks:
-  webapp_net:
+  webapp_chat_net:
     driver: bridge

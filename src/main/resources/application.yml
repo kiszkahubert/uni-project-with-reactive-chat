@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:XE
+    url: jdbc:oracle:thin:@web_app_db:1521:XE
     username: localadmin
     password: localadmin
     driver-class-name: oracle.jdbc.OracleDriver
@@ -26,6 +26,5 @@ spring:
             client-secret: ${client-secret}
   data:
     mongodb:
-      uri: mongodb://localhost:27017/chat_app
+      uri: mongodb://mongo_db_chat_app:27017/chat_app
       authentication-database: admin
-
