@@ -17,8 +17,8 @@ public class ChatEndpointsController {
         this.userService = userService;
     }
 
-    @GetMapping("/chatabc")
-    public String getAdminPage(){
+    @GetMapping("/help/chat")
+    public String getChatPage(){
         UserInfo userInfo = userService.getCurrentUser();
         String role = userInfo.getRole();
         if(role.equals("ADMIN")){

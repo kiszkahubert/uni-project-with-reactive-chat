@@ -64,7 +64,6 @@
             display: block;
             margin: auto;
         }
-
         @media (max-width: 1399px) {
             .container{
                 padding: 0 20px 0 20px;
@@ -73,7 +72,6 @@
                 width: 100%;
             }
         }
-
         @media (max-width: 1119px) {
             .container{
                 padding: 0 20px 0 20px;
@@ -82,7 +80,6 @@
                 width: 100%;
             }
         }
-
         @media (max-width: 991px) {
             .container{
                 padding: 0 20px 0 20px;
@@ -91,7 +88,6 @@
                 width: 100%;
             }
         }
-
         @media (max-width: 768px) {
             .container{
                 padding: 0 20px 0 20px;
@@ -183,6 +179,8 @@
                 <textarea name="wiadomosc" id="wiadomosc" cols="50" rows="6" placeholder="Wiadomość" style="resize: none" required maxlength="200" title="Treść nie może być pusta i przekraczać 200 znaków"></textarea>
                 <input type="submit" class="send-message" value="WYŚLIJ WIADOMOŚĆ">
             </form>
+            <h2 style="text-align: center;margin-top: 5px;">lub</h2>
+            <button class="send-message"><a th:href="@{/help/chat}" style="text-decoration: none;color: white">Skontaktuj się przez chat!</a></button>
         </div>
     </div>
 </body>

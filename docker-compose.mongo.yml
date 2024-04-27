@@ -1,0 +1,40 @@
+version: '1'
+services:
+  mongodb:
+    image: mongo
+    container_name: mongo_db
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo:/data
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=localadmin
+      - MONGO_INITDB_ROOT_PASSWORD=localadmin
+
+  web_app_db:
+    image: restaurantapp_db
+    ports:
+      - "1521:1521"
+    networks:
+      - webapp_net
+
+  web_app:
+    image: web_app
+    ports:
+      - "8080:8080"
+    environment:
+      - SMTP_PASSWD=${SMTP_PASSWD}
+      - SMTP_EMAIL=${SMTP_EMAIL}
+      - client-id=${client-id}
+      - client-secret=${client-secret}
+    depends_on:
+      - web_app_db
+    networks:
+      - webapp_net
+
+volumes:
+  mongo: {}
+
+networks:
+  webapp_net:
+    driver: bridge
