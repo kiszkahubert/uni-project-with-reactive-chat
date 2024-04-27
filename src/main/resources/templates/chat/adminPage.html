@@ -140,6 +140,9 @@
         .hidden {
             display: none;
         }
+        button{
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -158,6 +161,7 @@
             <div class="message-input">
                 <input autocomplete="off" type="text" id="message" placeholder="Wpisz swoją wiadomość!">
                 <button>Wyślij!</button>
+                <button onclick="disconnectUser()">Zakończ chat</button>
             </div>
         </form>
     </div>
@@ -285,17 +289,17 @@
         chatArea.scrollTop = chatArea.scrollHeight;
         event.preventDefault();
     }
-    function onLogout(){
-        stompClient.send('/app/user.disconnectUser',{},JSON.stringify({email:email,status:'OFFLINE'}));
+    function disconnectUser(){
+        stompClient.send('/app/user.disconnectUser',{},JSON.stringify({email:selectedUserId,status:'OFFLINE'}));
+        location.reload();
     }
-
     async function fetchAdminEmail(){
         try{
-            const repsonse = await fetch('/get/admin');
-            const data = await repsonse.json();
+            const response = await fetch('/get/admin');
+            const data = await response.json();
             return data.email;
         } catch (error){
-            console.error("Błąd pobierania danych ",error);
+            console.error("Error fetching data ",error);
             return null;
         }
     }

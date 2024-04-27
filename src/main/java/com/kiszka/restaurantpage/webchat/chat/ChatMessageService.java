@@ -26,12 +26,17 @@ public class ChatMessageService {
                 .getChatRoomId(chatMessage.getSenderId(),chatMessage.getRecipientId(),true)
                 .orElseThrow();
         chatMessage.setChatId(chatId);
+        chatMessage.setStatus("UP");
         chatMessageRepository.save(chatMessage);
         return chatMessage;
     }
 
     public List<ChatMessage> findChatMessages(String senderId, String recipientId){
         var chatId = chatRoomService.getChatRoomId(senderId,recipientId,false);
-        return chatId.map(chatMessageRepository::findByChatId).orElse(new ArrayList<>());
+        if(chatId.isPresent()){
+            return chatMessageRepository.findByChatIdAndStatus(chatId.get(),"UP");
+        } else {
+            return new ArrayList<>();
+        }
     }
 }

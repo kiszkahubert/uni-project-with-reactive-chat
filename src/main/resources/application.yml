@@ -28,3 +28,4 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/chat_app
       authentication-database: admin
+
